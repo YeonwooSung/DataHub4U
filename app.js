@@ -6,8 +6,6 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var aws = require('aws-sdk');
-
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 
