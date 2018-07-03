@@ -35,7 +35,7 @@ exports.getUserJson = function (user) {
             return undefined;
         }
         return value;
-    })
+    });
 
 };
 
