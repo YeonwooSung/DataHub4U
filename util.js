@@ -39,7 +39,13 @@ exports.getUserJson = function (user) {
 
 };
 
+/**
+ * This function returns the function that does the basic authentication.
+ * @returns {Function} the function that does the basic authentication.
+ */
 exports.basicAuth = function () {
+
+    //returns the function
     return function (req, res, next) {
         user = basicAuth(req);
 
