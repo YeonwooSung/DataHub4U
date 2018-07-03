@@ -1,3 +1,5 @@
+const PORT = 8080;
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,8 +8,6 @@ var logger = require('morgan');
 
 var aws = require('aws-sdk');
 var mysql = require('mysql');
-var server = require('http').createServer(app);
-var io = require('socket.io')(server);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -27,13 +27,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-io.sockets.on('connection', function(socket) {
-  console.log('socket is connected'); //TODO change the connection message if required
-});
-
-
-
-//------------------------------------------------------------------- basic given codes.
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -50,5 +43,11 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+//set the port number that the server uses.
+app.listen(PORT, function() {
+  console.log("listen to the port number: " + PORT);
+});
+
 
 module.exports = app;
