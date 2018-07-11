@@ -47,7 +47,7 @@ String collectData() {
 /**
  * This function will make the WiFi connection.
  *
- * If will print out the failure message if the Arduino is failed to connect to WiFi.
+ * It will print out the failure message if the Arduino is failed to connect to WiFi.
  */
 void connectViaNetwork() {
   Serial.print("Connecting to ");
