@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var apps = require('../app');
+var apps = require('../apps');
 
 var debug = require('debug')('datathingserver:server');
 var http = require('http');
