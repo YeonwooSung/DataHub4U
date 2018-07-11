@@ -6,8 +6,11 @@
 //The data wire is plugged into the pin 2 on the ESP8266.
 #define ONE_WIRE_BUS 2
 
-//The maximum delay time.
+//The delay time to wait connection
 #define DELAY_TIME 500
+
+//The maximum delay time.
+#define DELAY_LIMIT 15000
 
 #define INTERVAL 60000
 
@@ -63,12 +66,12 @@ void connectViaNetwork() {
     delay(DELAY_TIME);
     Serial.print(".");
 
-    if (count >= DELAY_TIME) {
+    if (count >= DELAY_LIMIT) {
       Serial.println("\nConnection failed :(");
       break;
     }
 
-    //TODO probably I should write some code to modify the value of the count..
+    count += DELAY_TIME;
 
   } //the while loop ends
 
