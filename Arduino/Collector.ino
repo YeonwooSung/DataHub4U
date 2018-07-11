@@ -122,5 +122,6 @@ void loop() {
   if (millis() > limit) {
       limit = millis() + INTERVAL;
       String stringData = collectData();
+      sendData(stringData);
   }
 }
