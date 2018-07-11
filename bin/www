@@ -5,24 +5,47 @@
  */
 
 var app = require('../app');
+var apps = require('../app');
+
 var debug = require('debug')('datathingserver:server');
 var http = require('http');
+var https = require('https');
 
-const port = 80; //use the default http port number
-app.set('port', port);
+const httpPort = 80; //use the default http port number
+const httpsPort = 443; //use the default https port number
+
+app.set('port', httpPort);
+apps.set('port', httpsPort);
+
+
+/**
+ * Certification option for the https protocol
+ */
+
+var options = {//TODO fill the options
+  cert: '',
+  key: ''
+};
+
 
 /**
  * Create HTTP server.
  */
 
 var server = http.createServer(app);
+var servers = https.createServer(options, apps);
+
 
 /**
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(httpPort);
 server.on('error', onError);
+server.on('listening', onListening);
+
+servers.listen(httpsPort);
+servers.on('error', onError);
 server.on('listening', onListening);
 
 
