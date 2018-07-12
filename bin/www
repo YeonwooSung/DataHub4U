@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-//var apps = require('../app');
+var apps = require('../app');
 
 var debug = require('debug')('datathingserver:server');
 var http = require('http');
@@ -14,10 +14,10 @@ var https = require('https');
 var fs = require('fs');
 
 const httpPort = 8080; //use the 8080 http port number
-const httpsPort = 443; //use the default https port number
+const httpsPort = 8443; //use the default https port number
 
 app.set('port', httpPort);
-//apps.set('port', httpsPort);
+apps.set('port', httpsPort);
 
 
 /**
@@ -35,7 +35,7 @@ var options = {//TODO fill the options
  */
 
 var server = http.createServer(app);
-//var servers = https.createServer(options, apps);
+var servers = https.createServer(options, apps);
 
 
 /**
@@ -46,6 +46,9 @@ server.listen(httpPort);
 server.on('error', onError);
 server.on('listening', onListening);
 
+servers.listen(httpsPort);
+servers.on('error', onError);
+servers.on('listening', onListening);
 
 /**
  * Event listener for HTTP server "error" event.
