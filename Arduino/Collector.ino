@@ -27,7 +27,7 @@ const char *ssid = "";
 const char *password = "";
 
 const int firstIndex = 0;
-const httpPort = 80; //the port number for the http connection (use the default http port number)
+const httpPort = 8080; //the port number for the http connection (use the default http port number)
 
 const char* host = ""; //the name of the host
 String url = ""; //the target URL
