@@ -11,6 +11,8 @@ var debug = require('debug')('datathingserver:server');
 var http = require('http');
 var https = require('https');
 
+var fs = require('fs');
+
 const httpPort = 8080; //use the 8080 http port number
 const httpsPort = 443; //use the default https port number
 
@@ -23,8 +25,8 @@ app.set('port', httpPort);
  */
 
 var options = {//TODO fill the options
-  cert: '',
-  key: ''
+    cert: fs.readFileSync("gfcert.pem"),
+    key: fs.readFileSync("gfselfsigned.key")
 };
 
 
