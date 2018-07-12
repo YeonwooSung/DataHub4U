@@ -1,5 +1,3 @@
-const PORT = 80;
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -43,10 +41,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//set the port number that the server uses.
-app.listen(PORT, function() {
-  console.log("listen to the port number: " + PORT);
-});
 
 
 module.exports = app;
