@@ -24,7 +24,7 @@ apps.set('port', httpsPort);
  * Certification option for the https protocol
  */
 
-var options = {//TODO fill the options
+var options = {
     cert: fs.readFileSync("../gfcert.pem"),
     key: fs.readFileSync("../gfselfsigned.key")
 };
