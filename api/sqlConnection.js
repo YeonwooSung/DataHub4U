@@ -1,13 +1,15 @@
 var mysql = require('mysql');
 
-const HOST = '';
-const USER = '';
-const PASSWORD = '';
+const HOST = 'localhost';
+const USER = 'root';
+const PASSWORD = ''; //The password of the MySQL server.
+const DATABASE = 'iot';
 
 //SQL queries
 const INSERT = 'INSERT INTO ';
 const VALUE = ' VALUES ';
 const SELECT_ALL = 'SELECT * FROM ';
+const FIELD = '( temperature )';
 
 //messages
 const FAILED = "Connection failed!";
@@ -23,7 +25,8 @@ const SELECT_ALL_FAILED = 'SELECT ALL query failed!!';
 var conn = mysql.createConnection({
     host: HOST,
     user: USER,
-    password: PASSWORD
+    password: PASSWORD,
+    database: DATABASE
 });
 
 /**
@@ -48,21 +51,21 @@ exports.connectMySQL = function() {
  * @param values the values that the user wants to store in.
  * @returns {Function} the function that inserts the data into the MySQL DB.
  */
-exports.insertIntoTable = function (table, values) {
+exports.insertIntoTable = function (table, temperature) {
     return function() {
         //TODO query string should be something like this: "INSERT INTO customers (name, address) VALUES ('Company Inc', 'Highway 37')"
         var queryString = INSERT + table;
-        queryString += '( ';
-        //TODO
-        queryString += ') ';
+        queryString += FIELD;
         queryString += VALUE;
-        queryString += '?';
+
+        //add the temperature value to the SQL query string.
+        queryString += temperature;
 
         conn.connect(function(err) {
             if (err) {
                 throw err;
             } else {
-                conn.query(queryString, [values], function (err, result) {
+                conn.query(queryString, function (err, result) {
                     if (err) {
                         console.log(INSERTION_FAILED);
                         throw err;
