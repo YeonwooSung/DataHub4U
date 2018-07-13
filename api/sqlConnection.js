@@ -9,7 +9,7 @@ const DATABASE = 'iot';
 const INSERT = 'INSERT INTO ';
 const VALUE = ' VALUES ';
 const SELECT_ALL = 'SELECT * FROM ';
-const FIELD = '( temperature, latitude, longitude )';
+const FIELD = ' ( temperature, latitude, longitude ) ';
 
 //messages
 const FAILED = "Connection failed!";
@@ -28,6 +28,7 @@ var conn = mysql.createConnection({
     password: PASSWORD,
     database: DATABASE
 });
+
 
 /**
  * This function helps the server to make a connection with MySQL DB.
