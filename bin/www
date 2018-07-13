@@ -25,8 +25,8 @@ apps.set('port', httpsPort);
  */
 
 var options = {//TODO fill the options
-    cert: fs.readFileSync("gfcert.pem"),
-    key: fs.readFileSync("gfselfsigned.key")
+    cert: fs.readFileSync("../gfcert.pem"),
+    key: fs.readFileSync("../gfselfsigned.key")
 };
 
 
@@ -49,6 +49,8 @@ server.on('listening', onListening);
 servers.listen(httpsPort);
 servers.on('error', onError);
 servers.on('listening', onListening);
+
+
 
 /**
  * Event listener for HTTP server "error" event.
@@ -77,6 +79,7 @@ function onError(error) {
       throw error;
   }
 }
+
 
 /**
  * Event listener for HTTP server "listening" event.
