@@ -31,6 +31,13 @@ var conn = mysql.createConnection({
 
 
 /**
+ * This instance will be used for connecting the router instance and the MySQL database.
+ * @type {Connection} the connection object
+ */
+exports.connection = mysql.createConnection(conn);
+
+
+/**
  * This function helps the server to make a connection with MySQL DB.
  * @returns {Function} that connects with the MySQL DataBase
  */
