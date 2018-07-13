@@ -27,7 +27,7 @@ const char *ssid = "";
 const char *password = "";
 
 const int firstIndex = 0;
-const httpPort = 8080; //the port number for the http connection (use the default http port number)
+const int httpPort = 8080; //the port number for the http connection (use the default http port number)
 
 const char* host = ""; //the name of the host
 String url = "/collect"; //the target URL
@@ -99,7 +99,7 @@ void sendData(String dataString) {
     return;
   }
 
-  String header = "GET" + String(url) + "?" + String(dataString) + "HTTP/1.1";
+  String header = "GET " + String(url) + "?" + String(dataString) + " HTTP/1.1";
 
   client.println(header);
   client.println("User-Agent: ESP8266");
