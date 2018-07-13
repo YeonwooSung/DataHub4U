@@ -9,9 +9,9 @@ router.get('/', function(req, res) {
     var latitude = req.query.latitude;
     var longitude = req.query.longitude;
 
-    console.log("temperature: " + temperature);
+    console.log("\ntemperature: " + temperature);
     console.log("latitude: " + latitude);
-    console.log("longitude: " + longitude + "\n");
+    console.log("longitude: " + longitude);
 
     db.insertIntoTable("table", temperature, latitude, longitude); //TODO use the suitable sql table name!!
 
