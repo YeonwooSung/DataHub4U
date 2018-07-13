@@ -44,7 +44,7 @@ String collectData() {
   //There would be multiple sensors on the board, thus, we should specify the sensor by using index.
   temperatureVal = sensors.getTempCByIndex(firstIndex);
 
-  return (String("temperature=") + String(temperatureVal));
+  return (String("temperature=") + String(temperatureVal) + String("&latitude=37.492538&longitude=126.9235992") );
 }
 
 /**

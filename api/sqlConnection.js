@@ -9,7 +9,7 @@ const DATABASE = 'iot';
 const INSERT = 'INSERT INTO ';
 const VALUE = ' VALUES ';
 const SELECT_ALL = 'SELECT * FROM ';
-const FIELD = '( temperature )';
+const FIELD = '( temperature, latitude, longitude )';
 
 //messages
 const FAILED = "Connection failed!";
@@ -51,15 +51,29 @@ exports.connectMySQL = function() {
  * @param values the values that the user wants to store in.
  * @returns {Function} the function that inserts the data into the MySQL DB.
  */
-exports.insertIntoTable = function (table, temperature) {
+exports.insertIntoTable = function (table, temperature, latitude, longitude) {
     return function() {
-        //TODO query string should be something like this: "INSERT INTO customers (name, address) VALUES ('Company Inc', 'Highway 37')"
+
         var queryString = INSERT + table;
         queryString += FIELD;
         queryString += VALUE;
 
+        queryString += '(';
+
         //add the temperature value to the SQL query string.
         queryString += temperature;
+
+        queryString += ', ';
+
+        //add the latitude value to the SQL query string.
+        queryString += latitude;
+
+        queryString += ', ';
+
+        //add the longitude value to the SQL query string.
+        queryString += longitude;
+
+        queryString += ')';
 
         conn.connect(function(err) {
             if (err) {
@@ -79,6 +93,7 @@ exports.insertIntoTable = function (table, temperature) {
     }; //return statement ends
 
 };
+
 
 /**
  * This function activates the "SELECT * FROM table" query to get all data in the specific table of the MySQL DB.
