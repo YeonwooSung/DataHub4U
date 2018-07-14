@@ -31,7 +31,7 @@ function getCurrentTime() {
     var minute = currentTime.getMinutes();
     var second = currentTime.getSeconds();
 
-    if (month != 12) {
+    if (month !== 12) {
         month += 1;
     } else {
         month = 1;
