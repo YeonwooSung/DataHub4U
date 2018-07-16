@@ -32,7 +32,7 @@ const int httpPort = 8080; //the port number for the http connection (use the de
 const char* host = ""; //the name of the host
 String url = "/collect"; //the target URL
 
-int temperatureVal; //the value of the temperature that is collected by the sensor.
+float temperatureVal; //the value of the temperature that is collected by the sensor.
 
 /**
  * This function collects the temperature data by using the sensor, and return the data string.
