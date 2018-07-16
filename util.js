@@ -1,7 +1,6 @@
 var basicAuth = require('basic-auth');
 
 var user;
-var authLevel = -1;
 
 var sqlConnection = require('./api/sqlConnection'); //TODO to check if the id and password are in the user table
 
@@ -19,8 +18,13 @@ function LogIn(userName, authLevel) {
  * The function for the log in session.
  * @returns {LogIn}
  */
-exports.getLogIn = function() {
-    if (authLevel > 0) {
+exports.getLogIn = function(id, pw) {
+    var logInResult = sqlConnection.selectAllForLogIn(id, pw);
+
+    var authLevel;
+
+    if (logInResult == 1) {
+        authLevel = 1;
         return new LogIn(user.userName, authLevel);
     }
 };
@@ -41,11 +45,12 @@ exports.getUserJson = function (user) {
 
 };
 
+
 /**
  * This function returns the function that does the basic authentication.
  * @returns {Function} the function that does the basic authentication.
  */
-exports.basicAuth = function () {
+exports.basicAuth = function() {
 
     //returns the function
     return function (req, res, next) {
@@ -64,13 +69,13 @@ exports.basicAuth = function () {
         next();
     };
 
+
     /**
      * This function processes the invalid entry.
      * @param res the http response
      * @returns {*} send the http response with the status code 401.
      */
     function invalidEntry(res) {
-        authLevel = -1;
         res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
         return res.sendStatus(401);
     }
