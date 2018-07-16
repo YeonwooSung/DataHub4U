@@ -3,6 +3,8 @@ var basicAuth = require('basic-auth');
 var user;
 var authLevel = -1;
 
+var sqlConnection = require('./api/sqlConnection'); //TODO to check if the id and password are in the user table
+
 /**
  * This function creates the log in session.
  * @param userName the name of the user

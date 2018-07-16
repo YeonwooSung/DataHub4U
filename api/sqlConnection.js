@@ -30,12 +30,6 @@ var conn = mysql.createConnection({
 });
 
 
-/**
- * This instance will be used for connecting the router instance and the MySQL database.
- * @type {Connection} the connection object
- */
-exports.connection = mysql.createConnection(conn);
-
 
 /**
  * This function helps the server to make a connection with MySQL DB.
@@ -56,7 +50,10 @@ exports.connectMySQL = function() {
 /**
  * This function helps the server to insert the data to the MySQL DB.
  * @param table the name of the target table.
- * @param values the values that the user wants to store in.
+ * @param temperature the temperature value that is collected.
+ * @param latitude the location information
+ * @param longitude the location information
+ * @param timestamp the time that the data is collected
  * @returns {Function} the function that inserts the data into the MySQL DB.
  */
 exports.insertIntoTable = function (table, temperature, latitude, longitude, timestamp) {
