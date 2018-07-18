@@ -1,7 +1,7 @@
+//for the basic authentication
 var basicAuth = require('basic-auth');
 
-var user;
-
+//use the sql queries to check if the user is registered.
 var sqlConnection = require('./api/sqlConnection'); //TODO to check if the id and password are in the user table
 
 /**
@@ -23,7 +23,7 @@ exports.getLogIn = function(id, pw) {
 
     var authLevel;
 
-    if (logInResult == 1) {
+    if (logInResult === 1) {
         authLevel = 1;
         return new LogIn(user.userName, authLevel);
     }
@@ -54,7 +54,7 @@ exports.basicAuth = function() {
 
     //returns the function
     return function (req, res, next) {
-        user = basicAuth(req);
+        var user = basicAuth(req);
 
         //check if the user passes the basic authentication.
         if (!user) {

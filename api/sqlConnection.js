@@ -5,12 +5,13 @@ const USER = 'root';
 const PASSWORD = ''; //The password of the MySQL server.
 const DATABASE = 'iot';
 
+const CONNECTION_LIMIT = 100;
+
 //SQL queries
 const INSERT = 'INSERT INTO ';
-const VALUE = ' VALUES ';
+const VALUE = ' VALUE ';
 const SELECT_ALL = 'SELECT * FROM ';
-const FIELD = ' ( temperature, latitude, longitude, timestamp ) ';
-const WHERE_ID_IS = 'WHERE `id` = ?';
+const WHERE_ID_IS = " WHERE 'id' = ?";
 
 //messages
 const FAILED = "Connection failed!";
@@ -23,33 +24,19 @@ const LOGIN_QUERY_FAILED = 'The login query was failed!!';
 const SUCCESS_CODE = 1;
 
 /**
- * This variable will be used for the database connection.
- * @type {Connection} DB connection
+ * This variable creates the db pool to control the db connection objects.
+ *
+ * @type {Pool} the database pool.
  */
-var conn = mysql.createConnection({
-    host: HOST,
-    user: USER,
-    password: PASSWORD,
-    database: DATABASE
+var pool = mysql.createPool({
+    connectionLimit : CONNECTION_LIMIT, // default = 10
+    host            : HOST,
+    user            : USER,
+    password        : PASSWORD,
+    database        : DATABASE
 });
 
 
-
-/**
- * This function helps the server to make a connection with MySQL DB.
- * @returns {Function} that connects with the MySQL DataBase
- */
-exports.connectMySQL = function() {
-    return function() {
-        conn.connect(function(err) {
-            if(err) {
-                throw err;
-            } else {
-                console.log(SUCCESS + HOST + "@" + USER);
-            }
-        });
-    };
-};
 
 /**
  * This function helps the server to insert the data to the MySQL DB.
@@ -58,13 +45,12 @@ exports.connectMySQL = function() {
  * @param latitude the location information
  * @param longitude the location information
  * @param timestamp the time that the data is collected
+ * @param humidity the percentage of the humidity
  * @returns {Function} the function that inserts the data into the MySQL DB.
  */
-exports.insertIntoTable = function (table, temperature, latitude, longitude, timestamp) {
-    return function() {
+exports.insertIntoTable = function (table, temperature, latitude, longitude, timestamp, humidity) {
 
         var queryString = INSERT + table;
-        queryString += FIELD;
         queryString += VALUE;
 
         queryString += '(';
@@ -72,28 +58,32 @@ exports.insertIntoTable = function (table, temperature, latitude, longitude, tim
         //add the temperature value to the SQL query string.
         queryString += temperature;
 
-        queryString += ', ';
+        queryString += ', \"';
 
         //add the latitude value to the SQL query string.
         queryString += latitude;
 
-        queryString += ', ';
+        queryString += '\", \"';
 
         //add the longitude value to the SQL query string.
         queryString += longitude;
 
-        queryString += ", ";
+        queryString += "\", \"";
 
         //add the timestamp value to the SQL query string.
         queryString += timestamp;
 
+        queryString += "\", ";
+
+        queryString += humidity;
+
         queryString += ')';
 
-        conn.connect(function(err) {
+        pool.getConnection(function (err, conn) {
             if (err) {
                 throw err;
             } else {
-                conn.query(queryString, function (err, result) {
+                conn.query(queryString, function (err, result, fields) {
                     if (err) {
                         console.log(INSERTION_FAILED);
                         throw err;
@@ -105,7 +95,6 @@ exports.insertIntoTable = function (table, temperature, latitude, longitude, tim
             }
         }); //conn.connect function ends.
 
-    }; //return statement ends
 
 };
 
@@ -119,7 +108,7 @@ exports.selectAllFromTable = function(table) {
     return function() {
         var queryString = SELECT_ALL + table;
 
-        conn.connect(function(err) {
+        pool.getConnection(function (err, conn) {
             if (err) {
 
                 console.log(FAILED);
@@ -153,7 +142,7 @@ exports.selectAllForLogIn = function(id, pw) {
         var queryString = SELECT_ALL + 'user_table'; //TODO user_table name!!
         queryString += WHERE_ID_IS;
 
-        conn.connect(function (err) {
+        pool.getConnection(function (err, conn) {
 
             if (err) {
                 console.log(LOGIN_QUERY_FAILED);

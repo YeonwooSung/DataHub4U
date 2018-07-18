@@ -10,7 +10,7 @@ router.get('/', function(req, res) {
     var longitude = req.query.longitude;
     var timestamp = getCurrentTime();
 
-    db.insertIntoTable("table", temperature, latitude, longitude, timestamp); //TODO use the suitable sql table name!!
+    db.insertIntoTable("a0000000", temperature, latitude, longitude, timestamp, 60); //TODO use the suitable sql table name!!
 
     res.render('collect', { title: 'Temperature data'});
 });
@@ -38,12 +38,12 @@ function getCurrentTime() {
     }
 
     str = year.toString();
-    str += "/";
+    str += "-";
     str += appendZeroForDateFormat(month);
-    str += "/";
+    str += "-";
     str += appendZeroForDateFormat(day);
 
-    str += "-";
+    str += " ";
 
     str += appendZeroForDateFormat(hour);
     str += ":";
@@ -51,7 +51,7 @@ function getCurrentTime() {
     str += ":";
     str += appendZeroForDateFormat(second);
 
-    console.log(str); //to debug the timestamp stuff.
+    console.log(str); //to debug the date time stuff.
 
     return str;
 
