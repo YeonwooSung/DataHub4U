@@ -12,7 +12,7 @@ router.get('/', function(req, res) {
     var longitude = req.query.longitude;
     var timestamp = getCurrentTime();
 
-    db.insertIntoTable(deviceNum, temperature, latitude, longitude, timestamp, 60); //TODO use the suitable sql table name!!
+    db.insertIntoTable(deviceNum, temperature, latitude, longitude, timestamp, 60);
 
     res.render('collect', { title: 'Temperature data'});
 });
