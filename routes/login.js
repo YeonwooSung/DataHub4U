@@ -4,17 +4,20 @@ var router = express.Router();
 //import the '../util.js' for the user authentication.
 var util = require('../util');
 
+//import the '../api/authentication.js' to  decrypt the encrypted password.
+var authentication = require('../api/authenticationSupport');
+
 /* GET users listing. */
 router.get('/', function(req, res) {
     //TODO
 });
 
-
+/* GET log in authentication */
 router.get('/authenticate', function(req, res) {
     var id = req.query.id;
     var pw = req.query.pw;
 
-    pw = xorDecryption(id, pw);
+    pw = authentication.xorDecryption(id, pw);
 
     var logIn = util.getLogIn(id, pw);
 
@@ -26,43 +29,5 @@ router.get('/authenticate', function(req, res) {
         //
     }
 });
-
-
-/**
- * The aim of this function is to decrypt the sent encrypted password.
- *
- * @param id the user id
- * @param pw the user password
- */
-function xorDecryption(id, pw) {
-    var key = '';
-
-    while (key.length < pw.length) {
-        key += id;
-    }
-
-    var start = 0;
-    var end = 3;
-
-    var str;
-    var limit = pw.length;
-
-    var value1;
-    var value2;
-    var index = 0;
-    var result = '';
-
-    while (end < limit) {
-        str = pw.substring(start, end);
-        value1 = parseInt(str);
-
-        value2 = key[index].charCodeAt(0);
-
-        var temp = value1 ^ value2;
-        result += String.fromCharCode(temp);
-    }
-
-    return result;
-}
 
 module.exports = router;

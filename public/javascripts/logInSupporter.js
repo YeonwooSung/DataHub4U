@@ -1,7 +1,7 @@
 const ZERO = 0;
 const HEX = 16;
 const HEX_OFFSET = "0X";
-const ADDITIONAL_ZERO = "0"
+const ADDITIONAL_ZERO = "0";
 
 /**
  * The aim of this function is to encrypt the user password by using the XOR operation.

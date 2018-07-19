@@ -95,7 +95,6 @@ exports.insertIntoTable = function (table, temperature, latitude, longitude, tim
             }
         }); //conn.connect function ends.
 
-
 };
 
 
