@@ -6,9 +6,4 @@ router.get('/', function(req, res) {
     res.render('data', { title: 'Data Thing' });
 });
 
-/* GET data analysis page */
-router.get('/analysis', function (req, res) {
-    res.render('data', { title: 'Analysis' });
-});
-
 module.exports = router;
