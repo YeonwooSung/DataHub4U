@@ -17,6 +17,9 @@
 //The serial number to print out the message, while doing the debugging process.
 #define SERIAL_NUM 115200
 
+//The device number of this device. (The device number is an unique value of each device)
+#define DEVICE_NUM "a0000000";
+
 //Create the OneWire instance to communicate with not only Maxim/Dallas ICs but also any OneWire devices.
 OneWire oneWire(ONE_WIRE_BUS);
 //Pass the created OneWire object as an argument to create the constructor of the DallasTemperature instance.
@@ -44,7 +47,7 @@ String collectData() {
   //There would be multiple sensors on the board, thus, we should specify the sensor by using index.
   temperatureVal = sensors.getTempCByIndex(firstIndex);
 
-  return (String("temperature=") + String(temperatureVal) + String("&latitude=37.492538&longitude=126.9235992") );
+  return (String("deviceNum=") + DEVICE_NUM + String("temperature=") + String(temperatureVal) + String("&latitude=37.492538&longitude=126.9235992") );
 }
 
 /**

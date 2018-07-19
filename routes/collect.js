@@ -5,12 +5,14 @@ var db = require('../api/sqlConnection');
 
 /* GET */
 router.get('/', function(req, res) {
+
+    var deviceNum = req.query.deviceNum;
     var temperature = req.query.temperature;
     var latitude = req.query.latitude;
     var longitude = req.query.longitude;
     var timestamp = getCurrentTime();
 
-    db.insertIntoTable("a0000000", temperature, latitude, longitude, timestamp, 60); //TODO use the suitable sql table name!!
+    db.insertIntoTable(deviceNum, temperature, latitude, longitude, timestamp, 60); //TODO use the suitable sql table name!!
 
     res.render('collect', { title: 'Temperature data'});
 });
