@@ -11,16 +11,19 @@ const CONNECTION_LIMIT = 100;
 const INSERT = 'INSERT INTO ';
 const VALUE = ' VALUE ';
 const SELECT_ALL = 'SELECT * FROM ';
-const WHERE_ID_IS = " WHERE 'id' = ?";
+const SELECT_ID_FROM = "SELECT id FROM user WHERE password=\"";
+const SELECT_PW_FROM = "SELECT password FROM user WHERE id=\"";
 
 //messages
 const FAILED = "Connection failed!";
-const SUCCESS = 'connection success! connected to: ';
 const INSERTION_FAILED = 'INSERT INTO query failed!!';
 const SELECT_ALL_FAILED = 'SELECT ALL query failed!!';
 const LOGIN_QUERY_FAILED = 'The login query was failed!!';
 
 
+//The result codes that will be returned by the functions below.
+const ERROR_CODE = -1;
+const FAILURE_CODE = 0;
 const SUCCESS_CODE = 1;
 
 /**
@@ -104,63 +107,99 @@ exports.insertIntoTable = function (table, temperature, latitude, longitude, tim
  * @returns {Function} the function that activates the "SELECT * FROM table" query.
  */
 exports.selectAllFromTable = function(table) {
-    return function() {
-        var queryString = SELECT_ALL + table;
+    var queryString = SELECT_ALL + table;
 
-        pool.getConnection(function (err, conn) {
-            if (err) {
+    pool.getConnection(function (err, conn) {
+        if (err) {
 
-                console.log(FAILED);
-                throw err;
+            console.log(FAILED);
+            throw err;
 
-            } else {
-                conn.query(queryString, function(err, result, fields) {
-                    if (err) {
-                        console.log(SELECT_ALL_FAILED);
-                        throw err;
-                    } else {
-                        console.log(result);
-                    }
-                });
-            }
+        } else {
+            conn.query(queryString, function(err, result, fields) {
+                if (err) {
+                    console.log(SELECT_ALL_FAILED);
+                    throw err;
+                } else {
+                    console.log(result);
+                }
+            });
+        }
 
-        }); //conn.connect function ends
+    }); //conn.connect function ends
 
-    }; //return statement ends
 };
 
 
 /**
- * The aim of this function is to execute the sql select query to check if the user is registered.
- * @param id the id of the user
- * @param pw the password of the user
- * @returns {Function} the function that executes the SQL query to get the data from DB to support the log in process.
+ * This function checks if the given id and password is stored in the MariaDB by comparing the id.
+ *
+ * @param id the user id.
+ * @param pw the user password.
  */
-exports.selectAllForLogIn = function(id, pw) {
-    return function() {
-        var queryString = SELECT_ALL + 'user_table'; //TODO user_table name!!
-        queryString += WHERE_ID_IS;
+exports.getIdFromDB = function(id, pw) {
+    var queryString = SELECT_ID_FROM + pw + "\"";
 
-        pool.getConnection(function (err, conn) {
+    pool.getConnection(function (err, conn) {
+        if (err) {
+            console.log(FAILED);
 
-            if (err) {
-                console.log(LOGIN_QUERY_FAILED);
-                throw err;
-            } else {
-                conn.query(queryString, id, function (err, result, fields) {
-                    if (err) {
-                        console.log(LOGIN_QUERY_FAILED);
-                        throw err;
-                    } else {
-                        console('log in process: ', id);
+            return ERROR_CODE;
+        } else {
 
-                        //TODO should check whether the id and pw of the user is valid or not.
+            conn.query(queryString, function (err, result, fields) {
+                if (err) {
+                    console.log(LOGIN_QUERY_FAILED);
+                    return ERROR_CODE;
+                } else {
 
+                    var value = result[0].id;
+
+                    if (value === id) {
                         return SUCCESS_CODE;
+                    } else {
+                        return FAILURE_CODE;
                     }
-                });
-            }
 
-        });
-    }
+                }
+            });
+        }
+    });
+};
+
+
+/**
+ * This function checks if the given password is valid and stored in the MariaDB.
+ *
+ * @param id the user id.
+ * @param pw the user password.
+ */
+exports.getPasswordFromDB = function (id, pw) {
+    var queryString = SELECT_PW_FROM + id + "\"";
+
+    pool.getConnection(function(err, conn) {
+        if (err) {
+            console.log(FAILED);
+
+            return ERROR_CODE;
+        } else {
+
+            conn.query(queryString, function(err, result, fields) {
+                if (err) {
+                    console.log(FAILED);
+
+                    return ERROR_CODE;
+                } else {
+
+                    var value = result[0].password;
+
+                    if (value === pw) {
+                        return SUCCESS_CODE;
+                    } else {
+                        return FAILURE_CODE;
+                    }
+                }
+            });
+        }
+    });
 };

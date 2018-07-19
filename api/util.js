@@ -4,6 +4,14 @@ var basicAuth = require('basic-auth');
 //use the sql queries to check if the user is registered.
 var sqlConnection = require('./sqlConnection'); //TODO to check if the id and password are in the user table
 
+
+const SUCCESS_CODE = 1;
+const FAILURE_CODE = 0;
+const ERROR_CODE = -1;
+
+const WRONG_PW = ': Wrong Password!';
+const FAILED = 'Authentication failed!';
+
 /**
  * This function creates the log in session.
  * @param userName the name of the user
@@ -19,16 +27,32 @@ function LogIn(userName, authLevel) {
  * @returns {LogIn}
  */
 exports.getLogIn = function(id, pw) {
-    var logInResult = sqlConnection.selectAllForLogIn(id, pw);
+    var logInResult = sqlConnection.getPasswordFromDB(id, pw);
 
     var authLevel;
 
-    if (logInResult === 1) {
+    if (logInResult === SUCCESS_CODE) {
+
         authLevel = 1;
-        return new LogIn(user.userName, authLevel);
+        return new LogIn(id, authLevel);
+
+    } else if (logInResult === ERROR_CODE) {
+        logInResult = sqlConnection.getIdFromDB(id, pw);
+
+        if (logInResult === SUCCESS_CODE) {
+            authLevel = 1;
+            return new LogIn(id, authLevel);
+        } else {
+            console.log(FAILED);
+
+            return null;
+        }
+
+    } else {
+        console.log(id + WRONG_PW);
     }
 
-    return null;
+    return LogIn(id, FAILURE_CODE);
 };
 
 /**

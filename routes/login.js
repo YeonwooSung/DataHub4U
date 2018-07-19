@@ -26,7 +26,12 @@ router.get('/authenticate', function(req, res) {
 
         //TODO send the fail message or something else..
     } else {
-        //
+
+        if (logIn.authLever >= 1) {
+            //TODO log in finished..
+        } else {
+            //TODO send the message "wrong password"
+        }
     }
 });
 
