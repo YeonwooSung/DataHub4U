@@ -27,6 +27,8 @@ exports.getLogIn = function(id, pw) {
         authLevel = 1;
         return new LogIn(user.userName, authLevel);
     }
+
+    return null;
 };
 
 /**
