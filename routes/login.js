@@ -9,4 +9,9 @@ router.get('/', function(req, res) {
     //TODO
 });
 
+router.get('/authenticate', function(req, res) {
+    var id = req.query.id;
+    //TODO password..?
+});
+
 module.exports = router;

@@ -1,6 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
+const ZERO = 0;
+const ONE = 1;
+const TWO = 2;
+
 var db = require('../api/sqlConnection');
 
 /* GET */
@@ -19,39 +23,28 @@ router.get('/', function(req, res) {
 
 
 /**
- * The aim of this function is to get the current timestamp (by using the UNIX timestamp).
+ * The aim of this function is to get the current date time.
+ * This function uses the Date.toLocaleString() function to achieve the localisation.
+ *
  * @returns {*} the current timestamp string.
  */
 function getCurrentTime() {
     var str;
 
-    var currentTime = new Date();
-    var year = currentTime.getYear() + 1900;
-    var month = currentTime.getMonth();
-    var day = currentTime.getDate();
-    var hour = currentTime.getHours();
-    var minute = currentTime.getMinutes();
-    var second = currentTime.getSeconds();
+    var dateObj = new Date();
 
-    if (month !== 12) {
-        month += 1;
-    } else {
-        month = 1;
-    }
+    var localeString = dateObj.toLocaleString('en-GB');
 
-    str = year.toString();
+    var strArray = localeString.split(',');
+
+    var dateArray = strArray[ZERO].split('/');
+
+    str = dateArray[TWO] + "-";
+    str += dateArray[ONE];
     str += "-";
-    str += appendZeroForDateFormat(month);
-    str += "-";
-    str += appendZeroForDateFormat(day);
+    str += dateArray[ZERO];
+    str += strArray[ONE];
 
-    str += " ";
-
-    str += appendZeroForDateFormat(hour);
-    str += ":";
-    str += appendZeroForDateFormat(minute);
-    str += ":";
-    str += appendZeroForDateFormat(second);
 
     console.log(str); //to debug the date time stuff.
 
@@ -60,22 +53,5 @@ function getCurrentTime() {
 }
 
 
-/**
- * This function checks the value of the argument and add 0 in front of the given timestamp element.
- *
- * @param val the timestamp element
- * @returns {*} the string timestamp element
- */
-function appendZeroForDateFormat(val) {
-    var str;
-
-    if (val < 10) {
-        str = "0" + val.toString();
-    } else {
-        str = val.toString();
-    }
-
-    return str;
-}
 
 module.exports = router;
