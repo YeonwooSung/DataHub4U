@@ -2,14 +2,14 @@ var express = require('express');
 var router = express.Router();
 
 //import the '../util.js' for the user authentication.
-var util = require('../util');
+var util = require('../api/util');
 
 //import the '../api/authentication.js' to  decrypt the encrypted password.
 var authentication = require('../api/authenticationSupport');
 
 /* GET users listing. */
 router.get('/', function(req, res) {
-    //TODO
+    res.render('login', { title: 'Log In'});
 });
 
 /* GET log in authentication */

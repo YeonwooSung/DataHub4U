@@ -2,7 +2,7 @@
 var basicAuth = require('basic-auth');
 
 //use the sql queries to check if the user is registered.
-var sqlConnection = require('./api/sqlConnection'); //TODO to check if the id and password are in the user table
+var sqlConnection = require('./sqlConnection'); //TODO to check if the id and password are in the user table
 
 /**
  * This function creates the log in session.
