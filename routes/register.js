@@ -5,7 +5,7 @@ var router = express.Router();
 var util = require('../api/util');
 
 //import the '../api/authentication.js' to  decrypt the encrypted password.
-var authentication = require('../api/authenticationSupport');
+var authentication = require('../api/authenticationPassport');
 
 /* GET users listing. */
 router.get('/', function(req, res) {

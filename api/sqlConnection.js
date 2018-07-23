@@ -13,9 +13,11 @@ const VALUE = ' VALUE ';
 const SELECT_ALL = 'SELECT * FROM ';
 const SELECT_ID_FROM = "SELECT id FROM user WHERE password=\"";
 const SELECT_PW_FROM = "SELECT password FROM user WHERE id=\"";
+const SELECT_DEVICE = "SELECT (DeviceNum, DeviceName) FROM device WHERE id=\"";
 
 //messages
 const FAILED = "Connection failed!";
+const FAILED_GET_DEVICE_NUM = "Failed to get device number!";
 const INSERTION_FAILED = 'INSERT INTO query failed!!';
 const SELECT_ALL_FAILED = 'SELECT ALL query failed!!';
 const LOGIN_QUERY_FAILED = 'The login query was failed!!';
@@ -200,6 +202,35 @@ exports.getPasswordFromDB = function (id, pw) {
                     }
                 }
             });
+        }
+    });
+};
+
+
+/**
+ * This function gets the array of tuples that contain DeviceNum and DeviceName.
+ *
+ * @param id the id of the user
+ * @return the array of tuple (DeviceNum, DeviceName)
+ */
+exports.getDeviceNumbers = function (id) {
+    var queryString = SELECT_DEVICE + id + "\"";
+
+    pool.getConnection(function (err, conn) {
+        if (err) {
+            console.log(FAILED);
+            throw err;
+        } else {
+
+            conn.query(queryString, function(err, result, fields) {
+                if (err) {
+                    console.log(id + FAILED_GET_DEVICE_NUM);
+                    throw err;
+                } else {
+                    return result;
+                }
+            });
+
         }
     });
 };
