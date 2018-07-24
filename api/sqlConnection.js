@@ -18,6 +18,7 @@ const SELECT_DEVICE = "SELECT (DeviceNum, DeviceName) FROM device WHERE id=\"";
 //messages
 const FAILED = "Connection failed!";
 const FAILED_GET_DEVICE_NUM = "Failed to get device number!";
+const FAILED_GET_DATA = "Failed to get data: ";
 const INSERTION_FAILED = 'INSERT INTO query failed!!';
 const SELECT_ALL_FAILED = 'SELECT ALL query failed!!';
 const LOGIN_QUERY_FAILED = 'The login query was failed!!';
@@ -219,13 +220,13 @@ exports.getDeviceNumbers = function (id) {
     pool.getConnection(function (err, conn) {
         if (err) {
             console.log(FAILED);
-            throw err;
+            return null;
         } else {
 
             conn.query(queryString, function(err, result, fields) {
                 if (err) {
                     console.log(id + FAILED_GET_DEVICE_NUM);
-                    throw err;
+                    return null;
                 } else {
                     return result;
                 }
@@ -233,4 +234,31 @@ exports.getDeviceNumbers = function (id) {
 
         }
     });
+};
+
+/**
+ * This function gets the data of the particular device from the database.
+ *
+ * @param deviceNum the device number of the target device.
+ */
+exports.getData = function (deviceNum) {
+    var queryString = SELECT_ALL + deviceNum;
+
+    pool.getConnection(function (err, conn) {
+        if (err) {
+            console.log(FAILED);
+            return null;
+        } else {
+
+            conn.query(queryString, function (err, result, fields) {
+                if (err) {
+                    console.log(FAILED_GET_DATA, deviceNum);
+                    return null;
+                } else {
+                    return result;
+                }
+            });
+
+        }
+    })
 };

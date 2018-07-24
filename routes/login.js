@@ -14,8 +14,6 @@ router.get('/authenticate', function(req, res) {
     var id = req.query.id;
     var pw = req.query.pw;
 
-    pw = authentication.xorDecryption(id, pw);
-
     var logIn = util.getLogIn(id, pw);
 
     if (logIn !== null) {
