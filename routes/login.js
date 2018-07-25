@@ -23,6 +23,9 @@ router.get('/authenticate', function(req, res) {
     } else {
 
         if (logIn.authLever >= 1) {
+            res.writeHead(200, {
+                'Set-Cookie':['id=' + id, 'pw=' + pw] //TODO do we save password to cookie??
+            });
             //TODO log in finished..
         } else {
             //TODO send the message "wrong password"
