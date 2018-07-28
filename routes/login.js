@@ -19,12 +19,12 @@ router.get('/authenticate', function(req, res) {
     if (logIn !== null) {
         console.log("Authentication failed!");
 
-        //TODO send the fail message or something else..
+        res.send('Authentication failed!\nPlease re-do the log in!');
     } else {
 
         if (logIn.authLever >= 1) {
             res.writeHead(200, {
-                'Set-Cookie':['id=' + id, 'pw=' + pw] //TODO do we save password to cookie??
+                'Set-Cookie':['id=' + id, 'pw=' + pw, 'Permanent=cookies; Max-Age=${60*60*24*30}'] //max age = 1 month
             });
             //TODO log in finished..
         } else {

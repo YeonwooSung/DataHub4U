@@ -7,21 +7,26 @@ var cookie = require('cookie');
 /* GET users listing. */
 router.get('/', function(req, res) {
     //parse the cookie
-    var cookies = cookie.parse(req.headers.cookie);
+    var cookies = {};
 
-    var id = cookies.id;
+    if (req.headers.cookie !== undefined) {
+        cookies = cookie.parse(req.headers.cookie);
 
-    if (id == null) {
-        res.send('Log in failed.. Please do the log in process again!')
-    } else {
+        var id = cookies.id;
 
-        var result = conn.getDeviceNumbers(id);
-
-        if (result === null) {
-            res.send('Oops! Something goes wrong :(');
+        if (id == null) {
+            res.send('Log in failed.. Please do the log in process again!')
         } else {
-            var title = id + "'s page";
-            res.render('users', {title: title, data: result});
+
+            var result = conn.getDeviceNumbers(id);
+
+            if (result === null) {
+                res.send('Oops! Something goes wrong :(');
+            } else {
+                var title = id + "'s page";
+                res.render('users', {title: title, data: result});
+            }
+
         }
 
     }
