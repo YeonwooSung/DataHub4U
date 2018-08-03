@@ -1,5 +1,118 @@
-extends layout
+doctype html
+html
+    head
+        title #{title}
+    body
+        script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
+        script.
+            google.charts.load('current', {'packages': ['line']});
+            google.charts.setOnLoadCallback(init);
 
-block content
-    h1= title
-    p The data page of #{title}
+            var dataset = !{JSON.stringify(data)};
+
+            var maxTemp,minTemp, tempSum, tmaxDate, tminDate;
+
+            function init() {
+                document.getElementById('1day').checked = true;
+                drawChart();
+            }
+
+            function drawChart() {
+                var array= [['date time', 'temperature']];
+                array = makeValidDataForm(array);
+                var data = google.visualization.arrayToDataTable(array);
+
+                var options = {
+                    title: 'temperature graph'
+                };
+
+                var container = document.getElementById('content');
+
+                var chart = new google.charts.Line(container);
+                chart.draw(data, options);
+
+                document.getElementById('tempMax').innerText = 'Max: ' + maxTemp.toString() + '℃';
+                document.getElementById('tempMin').innerText = 'Min: ' + minTemp.toString() + '℃';
+                document.getElementById('tempAvg').innerText = 'Average: ' + (tempSum / dataset.length).toString() + '℃';
+            }
+
+
+            function makeValidDataForm(array) {
+                var i, temp, date, lastDate, lastTemp;
+
+                maxTemp = minTemp = dataset[0].temperature;
+                tempSum = 0;
+
+                tmaxDate = tminDate = [new Date(Date.parse(dataset[0].timestamp))];
+                lastDate = new Date(Date.parse(dataset[dataset.length - 1].timestamp));
+
+                var limitDate = new Date();
+
+                if (document.getElementById('1day').checked) {
+                    limitDate.setDate(lastDate.getDate() - 1);
+                } else if (document.getElementById('1week')) {
+                    limitDate.setDate(lastDate.getDate() - 7);
+                } else {
+                    limitDate.setDate(lastDate.getDate() - 30);
+                }
+
+                for (i = 0; i < dataset.length; i++) {
+                    date = new Date(Date.parse(dataset[i].timestamp));
+
+                    if (date > lastDate || date < limitDate) {
+                        continue;
+                    }
+                    console.log(date);
+
+                    temp = [];
+                    temp.push(date.toString());
+                    temp.push(dataset[i].temperature);
+
+                    if (maxTemp < dataset[i].temperature) {
+                        maxTemp = dataset[i].temperature;
+                        tmaxDate = [date];
+                    } else if (maxTemp === dataset[i].temperature) {
+                        tmaxDate.push(date);
+                    }
+
+                    if (minTemp > dataset[i].temperature) {
+                        tminDate = [date];
+                        minTemp = dataset[i].temperature;
+                    } else if (minTemp === dataset[i].temperature) {
+                        tminDate.push(date);
+                    }
+
+                    tempSum += dataset[i].temperature;
+
+                    array.push(temp);
+                }
+
+                return array;
+            }
+        h1 User: #{user}
+        h2 Device: #{deviceNum}
+        div(class='content')
+            div(id='content', style='height: 100%; width: 100%')
+            div
+                center
+                    form
+                        div
+                            input(type='radio', id='1day', name='term')
+                            label(for='1day') 1일
+                            input(type='radio', id='1week', name='term')
+                            label(for='1week') 1주일
+                            input(type='radio', id='1month', name='term')
+                            label(for='1month') 1개월
+        div(class='max_min')
+            div(class='humidity')
+                div(class='humidityTitle')
+                div(class='humidityData' style='margin-left: 20px')
+                    div(id='humidityMax')
+                    div(id='humidityMin')
+                    div(id='humidityAvg')
+            div(class='temperature')
+                div(class='tempTitle') Temperature
+                div(class='tempData' style='margin-left: 20px')
+                    div(id='tempMax')
+                    div(id='tempMin')
+                    div(id='tempAvg')

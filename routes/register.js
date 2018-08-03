@@ -11,8 +11,6 @@ var authentication = require('../api/authenticationPassport');
 router.get('/', function(req, res) {
     var id = req.query.id;
     var pw = req.query.pw;
-
-    pw = authentication.xorDecryption(id, pw);
 });
 
 module.exports = router;

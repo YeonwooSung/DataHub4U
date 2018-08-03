@@ -1,15 +1,14 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
-var conn = require('../api/sqlConnection');
+const conn = require('../api/sqlConnection');
 
 /* GET data page */
 router.get('/', function(req, res) {
+    var user = req.query.user; //The user name.
     var deviceNum = req.query.deviceNum; //The device number of the target device.
 
-    var data = conn.getData(deviceNum);
-
-    res.render('data', { title: 'data analysis' });
+    conn.getData(user, deviceNum, res);
 });
 
 module.exports = router;

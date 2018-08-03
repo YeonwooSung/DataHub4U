@@ -5,7 +5,7 @@ const USER = 'root';
 const PASSWORD = ''; //The password of the MySQL server.
 const DATABASE = 'iot';
 
-const CONNECTION_LIMIT = 100;
+const CONNECTION_LIMIT = 1000;
 
 //SQL queries
 const INSERT = 'INSERT INTO ';
@@ -55,6 +55,7 @@ var pool = mysql.createPool({
  * @returns {Function} the function that inserts the data into the MySQL DB.
  */
 exports.insertIntoTable = function (table, temperature, latitude, longitude, timestamp, humidity) {
+        console.log('insertIntoTable: ', timestamp);
 
         var queryString = INSERT + table;
         queryString += VALUE;
@@ -240,25 +241,26 @@ exports.getDeviceNumbers = function (id) {
  * This function gets the data of the particular device from the database.
  *
  * @param deviceNum the device number of the target device.
+ * @param the instance that sends the response to the client.
  */
-exports.getData = function (deviceNum) {
+exports.getData = function (user, deviceNum, res) {
     var queryString = SELECT_ALL + deviceNum;
 
     pool.getConnection(function (err, conn) {
         if (err) {
             console.log(FAILED);
-            return null;
+            throw err;
         } else {
 
             conn.query(queryString, function (err, result, fields) {
                 if (err) {
                     console.log(FAILED_GET_DATA, deviceNum);
-                    return null;
+                    throw err;
                 } else {
-                    return result;
+                    res.render('data', { title: 'data visualization', user: user, deviceNum: deviceNum, data: result });
                 }
             });
 
         }
-    })
+    });
 };

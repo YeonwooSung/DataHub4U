@@ -1,10 +1,6 @@
 var express = require('express');
 var router = express.Router();
 
-const ZERO = 0;
-const ONE = 1;
-const TWO = 2;
-
 var db = require('../api/sqlConnection');
 
 /* GET */
@@ -14,7 +10,7 @@ router.get('/', function(req, res) {
     var temperature = req.query.temperature;
     var latitude = req.query.latitude;
     var longitude = req.query.longitude;
-    var timestamp = getCurrentTime();
+    var timestamp = getTheCurrentLocaleTimeString();
 
     db.insertIntoTable(deviceNum, temperature, latitude, longitude, timestamp, 60);
 
@@ -28,7 +24,7 @@ router.get('/', function(req, res) {
  *
  * @returns {*} the current timestamp string.
  */
-function getCurrentTime() {
+function getTheCurrentLocaleTimeString() {
     var str;
 
     var dateObj = new Date();
@@ -37,13 +33,15 @@ function getCurrentTime() {
 
     var strArray = localeString.split(',');
 
-    var dateArray = strArray[ZERO].split('/');
+    var dateArray = strArray[0].split('/');
 
-    str = dateArray[TWO] + "-";
-    str += dateArray[ONE];
+    console.log('dateArray: ' + dateArray);
+
+    str = dateArray[2] + "-";
+    str += dateArray[0];
     str += "-";
-    str += dateArray[ZERO];
-    str += strArray[ONE];
+    str += dateArray[1];
+    str += strArray[1];
 
 
     console.log(str); //to debug the date time stuff.

@@ -8,7 +8,7 @@ var logger = require('morgan');
 
 //The routers objects.
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+var userRouter = require('./routes/users');
 var dataRouter = require('./routes/data');
 var collectRouter = require('./routes/collect');
 var loginRouter = require('./routes/login');
@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Add routers to the corresponding paths.
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/user', userRouter);
 app.use('/data', dataRouter);
 app.use('/collect', collectRouter);
 app.use('/login', loginRouter);
