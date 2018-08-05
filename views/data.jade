@@ -12,11 +12,17 @@ html
 
             var maxTemp,minTemp, tempSum, tmaxDate, tminDate, count;
 
+            /**
+             * The aim of this function is initializing this web page.
+             */
             function init() {
                 document.getElementById('1month').checked = true;
                 drawChart();
             }
 
+            /**
+             * This function draws the graph by using the google line chart api.
+             */
             function drawChart() {
                 var array= [['date time', 'temperature']];
                 array = makeValidDataForm(array);
@@ -26,7 +32,8 @@ html
                     title: 'temperature graph',
                     pointSize: 5,
                     curveType: 'function',
-                    legend: {position: 'bottom'}
+                    legend: {position: 'bottom'},
+                    backgroundColor: '#ff66ff'
                 };
 
                 var container = document.getElementById('content');
@@ -40,6 +47,9 @@ html
             }
 
 
+            /**
+             * This function selects the valid data from the given data set.
+             */
             function makeValidDataForm(array) {
                 var i, temp, date, lastDate;
 
@@ -100,12 +110,16 @@ html
                 return array;
             }
 
+            /**
+             * The event listener function to check if the user selects the date with the date picker.
+             */
             function selectUserInputRadioButton() {
                 document.getElementById('calendarInput').checked = true;
             }
-        h1 User: #{user}
-        h2 Device: #{deviceNum}
-        div(class='content')
+        div(style='background-color: #6666ff')
+            h1 User: #{user}
+            h2 Device: #{deviceNum}
+        div(class='content', style='background-color: #ff99ff')
             div(id='content', style='height: 100%; width: 100%')
             div
                 center
@@ -124,7 +138,7 @@ html
                             button(type='button' id='okButton' onclick='drawChart()') OK
                         div(style='margin-top: 10px')
                             input(type='date', id='userCalendar', name='userCalendar', onchange='selectUserInputRadioButton()')
-        div(class='max_min', style='margin-top: 10px')
+        div(class='max_min', style='margin-top: 10px; background-color: #ffccff')
             div(class='humidity')
                 div(class='humidityTitle')
                 div(class='humidityData' style='margin-left: 20px')

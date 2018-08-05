@@ -24,6 +24,9 @@ const SELECT_ALL_FAILED = 'SELECT ALL query failed!!';
 const LOGIN_QUERY_FAILED = 'The login query was failed!!';
 
 
+//status code
+const FAILED_STATUS = 500;
+
 //The result codes that will be returned by the functions below.
 const ERROR_CODE = -1;
 const FAILURE_CODE = 0;
@@ -34,7 +37,7 @@ const SUCCESS_CODE = 1;
  *
  * @type {Pool} the database pool.
  */
-var pool = mysql.createPool({
+let pool = mysql.createPool({
     connectionLimit : CONNECTION_LIMIT, // default = 10
     host            : HOST,
     user            : USER,
@@ -215,27 +218,28 @@ exports.getPasswordFromDB = function (id, pw) {
  * @param id the id of the user
  * @return the array of tuple (DeviceNum, DeviceName)
  */
-exports.getDeviceNumbers = function (id) {
+exports.getDeviceNumbers = function (id, res) {
     var queryString = SELECT_DEVICE + id + "\"";
 
     pool.getConnection(function (err, conn) {
         if (err) {
             console.log(FAILED);
-            return null;
+            res.status(FAILED_STATUS).send(FAILED);
         } else {
 
             conn.query(queryString, function(err, result, fields) {
                 if (err) {
                     console.log(id + FAILED_GET_DEVICE_NUM);
-                    return null;
+                    res.status(FAILED_STATUS).send(id + FAILED_GET_DEVICE_NUM);
                 } else {
-                    return result;
+                    res.render('users', { title: 'user', user: id, data: result });
                 }
             });
 
         }
     });
 };
+
 
 /**
  * This function gets the data of the particular device from the database.
