@@ -1,21 +1,22 @@
 //import required libraries
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+let createError = require('http-errors');
+let express = require('express');
+let path = require('path');
+let cookieParser = require('cookie-parser');
+let logger = require('morgan');
 
 
 //The routers objects.
-var indexRouter = require('./routes/index');
-var userRouter = require('./routes/users');
-var dataRouter = require('./routes/data');
-var collectRouter = require('./routes/collect');
-var loginRouter = require('./routes/login');
-var registerRouter = require('./routes/register');
+let indexRouter = require('./routes/index');
+let userRouter = require('./routes/users');
+let dataRouter = require('./routes/data');
+let collectRouter = require('./routes/collect');
+let loginRouter = require('./routes/login');
+let registerRouter = require('./routes/register');
+let imageRouter = require('./imageRouter');
 
 
-var app = express();
+let app = express();
 
 
 // view engine setup
@@ -37,6 +38,7 @@ app.use('/data', dataRouter);
 app.use('/collect', collectRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
+app.use('/public', imageRouter);
 
 
 // catch 404 and forward to error handler

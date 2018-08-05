@@ -2,6 +2,7 @@ doctype html
 html
     head
         title #{title}
+        meta(name='user page', content='width=device-width, initial-scale=1.0')
     body
         script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
         script.
@@ -28,6 +29,7 @@ html
                 array = makeValidDataForm(array);
                 var data = google.visualization.arrayToDataTable(array);
 
+                //required options
                 var options = {
                     title: 'temperature graph',
                     pointSize: 5,
@@ -59,8 +61,9 @@ html
                 tmaxDate = tminDate = [new Date(Date.parse(dataset[0].timestamp))];
                 lastDate = new Date(Date.parse(dataset[dataset.length - 1].timestamp));
 
-                var limitDate = new Date(lastDate);
+                var limitDate = new Date(lastDate); //the limit date (starting date of the graph data)
 
+                //by using the if-else statement, check which radio button was clicked
                 if (document.getElementById('calendarInput').checked) {
                     var calVal = document.getElementById('userCalendar').value;
                     limitDate = new Date(Date.parse(calVal));
@@ -76,10 +79,11 @@ html
 
                 count = 0;
 
+                //iterates the given data set, and appends the valid data to the graph data list.
                 for (i = 0; i < dataset.length; i++) {
                     date = new Date(Date.parse(dataset[i].timestamp));
 
-                    if (date < limitDate) {
+                    if (date < limitDate) { //check if the date is in the target range.
                         continue;
                     }
 
@@ -87,14 +91,14 @@ html
                     temp.push(date.toString());
                     temp.push(dataset[i].temperature);
 
-                    if (maxTemp < dataset[i].temperature) {
+                    if (maxTemp < dataset[i].temperature) { //check if the current temperature is the highest one
                         maxTemp = dataset[i].temperature;
                         tmaxDate = [date];
                     } else if (maxTemp === dataset[i].temperature) {
                         tmaxDate.push(date);
                     }
 
-                    if (minTemp > dataset[i].temperature) {
+                    if (minTemp > dataset[i].temperature) { //check if the current temperature is the lowest one
                         tminDate = [date];
                         minTemp = dataset[i].temperature;
                     } else if (minTemp === dataset[i].temperature) {
@@ -107,7 +111,7 @@ html
                     count += 1;
                 }
 
-                return array;
+                return array; //return the list that contains the data to draw the graph.
             }
 
             /**
@@ -116,6 +120,7 @@ html
             function selectUserInputRadioButton() {
                 document.getElementById('calendarInput').checked = true;
             }
+        header
         div(style='background-color: #6666ff')
             h1 User: #{user}
             h2 Device: #{deviceNum}

@@ -14,7 +14,7 @@ router.get('/', function(req, res) {
     if (id === null || id === undefined) {
         res.status(FAILED_STATUS).send(FAILED);
     } else {
-        //
+        conn.getDeviceNumbers(id, res);
     }
 });
 

@@ -11,26 +11,23 @@ const CONNECTION_LIMIT = 1000;
 const INSERT = 'INSERT INTO ';
 const VALUE = ' VALUE ';
 const SELECT_ALL = 'SELECT * FROM ';
-const SELECT_ID_FROM = "SELECT id FROM user WHERE password=\"";
-const SELECT_PW_FROM = "SELECT password FROM user WHERE id=\"";
-const SELECT_DEVICE = "SELECT (DeviceNum, DeviceName) FROM device WHERE id=\"";
+const SELECT_ID_FROM = "SELECT id FROM User WHERE password=\"";
+const SELECT_PW_FROM = "SELECT password FROM User WHERE id=\"";
+const SELECT_DEVICE = "SELECT * FROM Device WHERE id=\"";
+const UPDATE_DEVICE = "UPDATE Device SET temperature = ";
+const WHERE_DEV_NUM_IS = " WHERE deviceNum = ";
 
 //messages
 const FAILED = "Connection failed!";
-const FAILED_GET_DEVICE_NUM = "Failed to get device number!";
+const FAILED_GET_DEVICE_NUM = " failed to get device number!";
 const FAILED_GET_DATA = "Failed to get data: ";
 const INSERTION_FAILED = 'INSERT INTO query failed!!';
-const SELECT_ALL_FAILED = 'SELECT ALL query failed!!';
 const LOGIN_QUERY_FAILED = 'The login query was failed!!';
 
 
 //status code
 const FAILED_STATUS = 500;
 
-//The result codes that will be returned by the functions below.
-const ERROR_CODE = -1;
-const FAILURE_CODE = 0;
-const SUCCESS_CODE = 1;
 
 /**
  * This variable creates the db pool to control the db connection objects.
@@ -57,7 +54,7 @@ let pool = mysql.createPool({
  * @param humidity the percentage of the humidity
  * @returns {Function} the function that inserts the data into the MySQL DB.
  */
-exports.insertIntoTable = function (table, temperature, latitude, longitude, timestamp, humidity) {
+exports.insertCollectedData = function (table, temperature, latitude, longitude, timestamp, humidity) {
         console.log('insertIntoTable: ', timestamp);
 
         var queryString = INSERT + table;
@@ -98,8 +95,8 @@ exports.insertIntoTable = function (table, temperature, latitude, longitude, tim
                         console.log(INSERTION_FAILED);
                         throw err;
                     } else {
-                        console.log('The number of rows that are affected: ' + result.affectedRows);
-                        return SUCCESS_CODE;
+                        console.log('The number of rows that are affected by insertion: ' + result.affectedRows);
+                        insertNewTemperature(deviceNum, temperature);
                     }
                 });
             }
@@ -109,33 +106,29 @@ exports.insertIntoTable = function (table, temperature, latitude, longitude, tim
 
 
 /**
- * This function activates the "SELECT * FROM table" query to get all data in the specific table of the MySQL DB.
- * @param table the target table name
- * @returns {Function} the function that activates the "SELECT * FROM table" query.
+ * This function uses the UPDATE query to update the temperature.
+ * @param deviceNum the device number of the target device.
+ * @param temp the new temperature
  */
-exports.selectAllFromTable = function(table) {
-    var queryString = SELECT_ALL + table;
+function insertNewTemperature(deviceNum, temp) {
+    var queryString = UPDATE_DEVICE + temp;
+    queryString += WHERE_DEV_NUM_IS;
+    queryString += deviceNum;
 
     pool.getConnection(function (err, conn) {
         if (err) {
-
-            console.log(FAILED);
             throw err;
-
         } else {
-            conn.query(queryString, function(err, result, fields) {
+            conn.query(queryString, function (err, result, fields) {
                 if (err) {
-                    console.log(SELECT_ALL_FAILED);
                     throw err;
                 } else {
-                    console.log(result);
+                    console.log('The number of rows that are affected by updating: ' + result.affectedRows);
                 }
             });
         }
-
-    }); //conn.connect function ends
-
-};
+    });
+}
 
 
 /**
@@ -151,21 +144,21 @@ exports.getIdFromDB = function(id, pw) {
         if (err) {
             console.log(FAILED);
 
-            return ERROR_CODE;
+            return -1;
         } else {
 
             conn.query(queryString, function (err, result, fields) {
                 if (err) {
                     console.log(LOGIN_QUERY_FAILED);
-                    return ERROR_CODE;
+                    return -1;
                 } else {
 
                     var value = result[0].id;
 
                     if (value === id) {
-                        return SUCCESS_CODE;
+                        return 1;
                     } else {
-                        return FAILURE_CODE;
+                        return 0;
                     }
 
                 }
@@ -216,7 +209,7 @@ exports.getPasswordFromDB = function (id, pw) {
  * This function gets the array of tuples that contain DeviceNum and DeviceName.
  *
  * @param id the id of the user
- * @return the array of tuple (DeviceNum, DeviceName)
+ * @return the array of tuple (deviceNum, deviceName)
  */
 exports.getDeviceNumbers = function (id, res) {
     var queryString = SELECT_DEVICE + id + "\"";
@@ -253,13 +246,13 @@ exports.getData = function (user, deviceNum, res) {
     pool.getConnection(function (err, conn) {
         if (err) {
             console.log(FAILED);
-            throw err;
+            res.status(FAILED_STATUS).send(FAILED);
         } else {
 
             conn.query(queryString, function (err, result, fields) {
                 if (err) {
                     console.log(FAILED_GET_DATA, deviceNum);
-                    throw err;
+                    res.status(FAILED_STATUS).send(FAILED);
                 } else {
                     res.render('data', { title: 'data visualization', user: user, deviceNum: deviceNum, data: result });
                 }

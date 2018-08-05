@@ -1,7 +1,47 @@
-extends layout
+doctype html
+html
+    head
+        title #{title}
+        meta(name='user page', content='width=device-width, initial-scale=1.0')
+        script.
+            function appendDevices() {
+                var dataset = !{JSON.stringify(data)}
+                var l = dataset.length;
 
-block content
-    h1= title
-    p The user page of #{title}
-    script.
-        var userData = !{data}
+                var deviceList = document.getElementById('devices');
+
+                var i;
+                for (i = 0; i < l; i++) { //iterate the dataset by using the for loop
+                    let deviceNum = dataset[i].deviceNum;
+                    let deviceName = dataset[i].deviceName;
+
+                    let div = document.createElement("div"); //new div tag that should be appended.
+                    div.class = 'device';
+
+                    var temperDiv = document.createElement('div')
+                    temperDiv.id = 'temperature';
+
+                    let temperature = dataset[i].temperature;
+
+                    let temperImg = document.createElement('img');
+                    let temperSpan = document.createElement('span');
+
+                    temperImg.id = 'temperatureImg';
+                    temperSpan.id = 'temperatureVal';
+
+                    temperImg.src = '../public/images/if_temperature_354242.svg'
+                    temperImg.width = '24';
+                    temperImg.height = '24';
+
+                    temperDiv.appendChild(temperImg); //add the img tag to the div tag.
+
+                    div.appendChild(temperDiv); //append the div tag for the temperature to the div tag for the device info.
+                    deviceList.appendChild(div); //add the child node to the div tag who's id is 'devices'.
+                }
+            }
+
+            window.onload = appendDevices; //call the appendDevices function when the page is on load.
+    body
+        h1 application name
+        h2 user: #{user}
+        div(class='devices', id='devices')
