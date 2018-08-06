@@ -30,18 +30,42 @@ html
                     temperSpan.id = 'temperatureVal';
 
                     temperImg.src = '../public/images/if_temperature_354242.svg'
-                    temperImg.width = '24';
-                    temperImg.height = '24';
+                    temperImg.width = '35';
+                    temperImg.height = '35';
 
-                    temperDiv.appendChild(temperImg); //add the img tag to the div tag.
+                    let deviceNameSpan = document.createElement('span');
+                    deviceNameSpan.innerText = deviceName;
+                    deviceNameSpan.class = 'deviceName';
+                    deviceNameSpan.style.fontSize = '25px';
+
+                    temperSpan.innerText = temperature + ' ℃';
+                    temperSpan.style.fontSize = '25px'
+
+                    let button = document.createElement('button');
+                    button.type = 'button';
+                    button.innerText = 'analyse';
+                    button.onclick = function() {
+                        redirectToDataPage(deviceNum);
+                    };
+
+                    temperDiv.appendChild(deviceNameSpan);
+                    temperDiv.appendChild(temperImg);
+                    temperDiv.appendChild(temperSpan);
+                    temperDiv.appendChild(button);
 
                     div.appendChild(temperDiv); //append the div tag for the temperature to the div tag for the device info.
                     deviceList.appendChild(div); //add the child node to the div tag who's id is 'devices'.
                 }
             }
 
+            function redirectToDataPage(deviceNum) {
+                var url = 'https://192.168.219.154:8443/data?deviceNum=' + deviceNum;
+                url += '&user=' + document.getElementById('userID').innerText;
+                window.location.href = url;
+            }
+
             window.onload = appendDevices; //call the appendDevices function when the page is on load.
     body
         h1 application name
-        h2 user: #{user}
+        h2(id='userID') #{user}
         div(class='devices', id='devices')

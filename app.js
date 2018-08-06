@@ -13,7 +13,7 @@ let dataRouter = require('./routes/data');
 let collectRouter = require('./routes/collect');
 let loginRouter = require('./routes/login');
 let registerRouter = require('./routes/register');
-let imageRouter = require('./imageRouter');
+let publicRouter = require('./publicRouter');
 
 
 let app = express();
@@ -38,7 +38,7 @@ app.use('/data', dataRouter);
 app.use('/collect', collectRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
-app.use('/public', imageRouter);
+app.use('/public', publicRouter);
 
 
 // catch 404 and forward to error handler
