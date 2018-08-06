@@ -1,18 +1,11 @@
 var mysql = require('mysql');
 
-//SQL queries
-const SELECT_ID_FROM = "SELECT id FROM User WHERE password=\"";
-
 //messages
 const FAILED = "Connection failed!";
 const FAILED_GET_DEVICE_NUM = " failed to get device number!";
 const FAILED_GET_DATA = "Failed to get data: ";
 const INSERTION_FAILED = 'INSERT INTO query failed!!';
 const LOGIN_QUERY_FAILED = 'The login query was failed!!';
-
-
-//status code
-const FAILED_STATUS = 500;
 
 
 /**
@@ -95,7 +88,7 @@ function insertNewTemperature(deviceNum, temp) {
  * @param pw the user password.
  */
 exports.getIdFromDB = function(id, pw) {
-    let queryString = SELECT_ID_FROM + pw + "\"";
+    let queryString = `SELECT id FROM User WHERE id="${pw}"`;
 
     pool.getConnection(function (err, conn) {
         if (err) {
@@ -174,13 +167,13 @@ exports.getDeviceNumbers = function (id, res) {
     pool.getConnection(function (err, conn) {
         if (err) {
             console.log(FAILED);
-            res.status(FAILED_STATUS).send(FAILED);
+            res.status(500).send(FAILED);
         } else {
 
             conn.query(queryString, function(err, result, fields) {
                 if (err) {
                     console.log(id + FAILED_GET_DEVICE_NUM);
-                    res.status(FAILED_STATUS).send(id + FAILED_GET_DEVICE_NUM);
+                    res.status(500).send(id + FAILED_GET_DEVICE_NUM);
                 } else {
                     res.render('users', { title: 'user', user: id, data: result });
                 }
@@ -204,13 +197,13 @@ exports.getData = function (user, deviceNum, res) {
     pool.getConnection(function (err, conn) {
         if (err) {
             console.log(FAILED);
-            res.status(501).send(FAILED);
+            res.status(500).send(FAILED);
         } else {
 
             conn.query(queryString, function (err, result, fields) {
                 if (err) {
                     console.log(FAILED_GET_DATA, deviceNum);
-                    res.status(501).send(FAILED);
+                    res.status(500).send(FAILED);
                 } else {
                     res.render('data', { title: 'data visualization', user: user, deviceNum: deviceNum, data: result });
                 }
