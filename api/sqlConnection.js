@@ -1,21 +1,7 @@
 var mysql = require('mysql');
 
-const HOST = 'localhost';
-const USER = 'root';
-const PASSWORD = ''; //The password of the MySQL server.
-const DATABASE = 'iot';
-
-const CONNECTION_LIMIT = 1000;
-
 //SQL queries
-const INSERT = 'INSERT INTO ';
-const VALUE = ' VALUE ';
-const SELECT_ALL = 'SELECT * FROM ';
 const SELECT_ID_FROM = "SELECT id FROM User WHERE password=\"";
-const SELECT_PW_FROM = "SELECT password FROM User WHERE id=\"";
-const SELECT_DEVICE = "SELECT * FROM Device WHERE id=\"";
-const UPDATE_DEVICE = "UPDATE Device SET temperature = ";
-const WHERE_DEV_NUM_IS = " WHERE deviceNum = ";
 
 //messages
 const FAILED = "Connection failed!";
@@ -35,18 +21,18 @@ const FAILED_STATUS = 500;
  * @type {Pool} the database pool.
  */
 let pool = mysql.createPool({
-    connectionLimit : CONNECTION_LIMIT, // default = 10
-    host            : HOST,
-    user            : USER,
-    password        : PASSWORD,
-    database        : DATABASE
+    connectionLimit : 1000, // default = 10
+    host            : 'localhost',
+    user            : 'root',
+    password        : '',
+    database        : 'iot'
 });
 
 
 
 /**
  * This function helps the server to insert the data to the MySQL DB.
- * @param table the name of the target table.
+ * @param deviceNum the device number of the device that sent data.
  * @param temperature the temperature value that is collected.
  * @param latitude the location information
  * @param longitude the location information
@@ -54,37 +40,10 @@ let pool = mysql.createPool({
  * @param humidity the percentage of the humidity
  * @returns {Function} the function that inserts the data into the MySQL DB.
  */
-exports.insertCollectedData = function (table, temperature, latitude, longitude, timestamp, humidity) {
+exports.insertCollectedData = function (deviceNum, temperature, latitude, longitude, timestamp, humidity) {
         console.log('insertIntoTable: ', timestamp);
 
-        var queryString = INSERT + table;
-        queryString += VALUE;
-
-        queryString += '(';
-
-        //add the temperature value to the SQL query string.
-        queryString += temperature;
-
-        queryString += ', \"';
-
-        //add the latitude value to the SQL query string.
-        queryString += latitude;
-
-        queryString += '\", \"';
-
-        //add the longitude value to the SQL query string.
-        queryString += longitude;
-
-        queryString += "\", \"";
-
-        //add the timestamp value to the SQL query string.
-        queryString += timestamp;
-
-        queryString += "\", ";
-
-        queryString += humidity;
-
-        queryString += ')';
+        let queryString = `INSERT INTO ${deviceNum} VALUE (${temperature}, "${latitude}", "${longitude}", "${timestamp}", ${humidity})`;
 
         pool.getConnection(function (err, conn) {
             if (err) {
@@ -111,9 +70,7 @@ exports.insertCollectedData = function (table, temperature, latitude, longitude,
  * @param temp the new temperature
  */
 function insertNewTemperature(deviceNum, temp) {
-    var queryString = UPDATE_DEVICE + temp;
-    queryString += WHERE_DEV_NUM_IS;
-    queryString += deviceNum;
+    let queryString = `UPDATE Device SET temperature=${temp} where deviceNum=${deviceNum}`;
 
     pool.getConnection(function (err, conn) {
         if (err) {
@@ -138,7 +95,7 @@ function insertNewTemperature(deviceNum, temp) {
  * @param pw the user password.
  */
 exports.getIdFromDB = function(id, pw) {
-    var queryString = SELECT_ID_FROM + pw + "\"";
+    let queryString = SELECT_ID_FROM + pw + "\"";
 
     pool.getConnection(function (err, conn) {
         if (err) {
@@ -153,7 +110,7 @@ exports.getIdFromDB = function(id, pw) {
                     return -1;
                 } else {
 
-                    var value = result[0].id;
+                    const value = result[0].id;
 
                     if (value === id) {
                         return 1;
@@ -175,28 +132,28 @@ exports.getIdFromDB = function(id, pw) {
  * @param pw the user password.
  */
 exports.getPasswordFromDB = function (id, pw) {
-    var queryString = SELECT_PW_FROM + id + "\"";
+    let queryString = `SELECT password FROM User WHERE id="${id}"`;
 
     pool.getConnection(function(err, conn) {
         if (err) {
             console.log(FAILED);
 
-            return ERROR_CODE;
+            return -1;
         } else {
 
             conn.query(queryString, function(err, result, fields) {
                 if (err) {
                     console.log(FAILED);
 
-                    return ERROR_CODE;
+                    return -1;
                 } else {
 
                     var value = result[0].password;
 
                     if (value === pw) {
-                        return SUCCESS_CODE;
+                        return 1;
                     } else {
-                        return FAILURE_CODE;
+                        return 0;
                     }
                 }
             });
@@ -212,7 +169,7 @@ exports.getPasswordFromDB = function (id, pw) {
  * @return the array of tuple (deviceNum, deviceName)
  */
 exports.getDeviceNumbers = function (id, res) {
-    var queryString = SELECT_DEVICE + id + "\"";
+    let queryString = `SELECT * FROM Device WHERE id="${id}"`;
 
     pool.getConnection(function (err, conn) {
         if (err) {
@@ -237,22 +194,23 @@ exports.getDeviceNumbers = function (id, res) {
 /**
  * This function gets the data of the particular device from the database.
  *
+ * @param user the user name
  * @param deviceNum the device number of the target device.
- * @param the instance that sends the response to the client.
+ * @param res the instance that sends the response to the client.
  */
 exports.getData = function (user, deviceNum, res) {
-    var queryString = SELECT_ALL + deviceNum;
+    let queryString = `SELECT * FROM ${deviceNum}`;
 
     pool.getConnection(function (err, conn) {
         if (err) {
             console.log(FAILED);
-            res.status(FAILED_STATUS).send(FAILED);
+            res.status(501).send(FAILED);
         } else {
 
             conn.query(queryString, function (err, result, fields) {
                 if (err) {
                     console.log(FAILED_GET_DATA, deviceNum);
-                    res.status(FAILED_STATUS).send(FAILED);
+                    res.status(501).send(FAILED);
                 } else {
                     res.render('data', { title: 'data visualization', user: user, deviceNum: deviceNum, data: result });
                 }
