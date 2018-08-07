@@ -5,6 +5,20 @@ html
         meta(name='user page', content='width=device-width, initial-scale=1.0')
         link(rel='stylesheet', href='../public/stylesheets/userPage.css')
         script.
+            let xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === xhr.DONE) {
+                    if (xhr.status === 200 || xhr.status === 201) {
+                        let names = xhr.statusText.split(': ');
+                        //get the corresponding DOM element, and change the inner text of that element.
+                        document.getElementById(`deviceName${names[0]}`).innerText = names[1];
+                    } else {
+                        alert('Failed to change the device name!');
+                    }
+                }
+            }
+
             function appendDevices() {
                 let dataSet = !{JSON.stringify(data)}
                 let l = dataSet.length;
@@ -34,7 +48,7 @@ html
 
                     let deviceNameSpan = document.createElement('span');
                     deviceNameSpan.innerText = deviceName;
-                    deviceNameSpan.id = 'deviceName';
+                    deviceNameSpan.id = 'deviceName' + i;
 
                     temperSpan.innerText = temperature + ' ℃';
 
@@ -43,13 +57,31 @@ html
                         redirectToDataPage(deviceNum);
                     };
 
+                    let button = document.createElement('button');
+                    button.innerText = 'change device name';
+                    button.type = 'button';
+                    button.onclick = function() {
+                        let newName = prompt('Please input the new device name', deviceName);
+
+                        changeTheDeviceName(i, deviceNum, newName); //send the AJAX request to the server to change the device name.
+                    }
+
                     temperDiv.appendChild(deviceNameSpan);
+                    temperDiv.append(button);
                     temperDiv.appendChild(temperImg);
                     temperDiv.appendChild(temperSpan);
 
                     div.appendChild(temperDiv); //append the div tag for the temperature to the div tag for the device info.
                     deviceList.appendChild(div); //add the child node to the div tag who's id is 'devices'.
                 }
+            }
+
+            function changeTheDeviceName(i, deviceNum, deviceName) {
+                let data = { index: i, deviceNum: deviceNum, deviceName: deviceName };
+
+                xhr.open('POST', window.location.href);
+                xhr.setRequestHeader('Content-Type', 'application/json');
+                xhr.send(JSON.stringify(data));
             }
 
             function redirectToDataPage(deviceNum) {

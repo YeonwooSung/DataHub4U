@@ -46,7 +46,7 @@ exports.insertCollectedData = function (deviceNum, temperature, latitude, longit
                         console.log(INSERTION_FAILED);
                         throw err;
                     } else {
-                        console.log('The number of rows that are affected by insertion: ' + result.affectedRows);
+                        console.log(`The number of rows that are affected by insertion: ${result.affectedRows}`);
                         insertNewTemperature(deviceNum, temperature);
                     }
                 });
@@ -55,6 +55,35 @@ exports.insertCollectedData = function (deviceNum, temperature, latitude, longit
 
 };
 
+/**
+ * This function supports the user to change the device name.
+ * @param i the index of the device on the user page.
+ * @param deviceName new device name
+ * @param deviceNum target device's device number
+ * @param res response to the client.
+ */
+exports.updateDeviceName = function(i, deviceName, deviceNum, res) {
+    let queryString = `UPDATE Device SET deviceName=" WHERE deviceNum="${deviceNum}"`;
+
+    pool.getConnection(function (err, conn) {
+        if (err) {
+            console.log(FAILED);
+            res.status(500).send(FAILED);
+        } else {
+            conn.query(queryString, function (err, result, fields) {
+                if (err) {
+                    let str = `Failed to update the device name of device ${deviceNum}!!\n`;
+                    console.log(str);
+                    res.status(500).send(str);
+                } else {
+                    console.log(`updateDeviceNum: the number of affected rows = ${result.affectedRows}`);
+                    console.log(`Update the deviceName to ${deviceName} successfully!\n`);
+                    res.status(200).send(`${i}: ${deviceName}`);
+                }
+            });
+        }
+    });
+};
 
 /**
  * This function uses the UPDATE query to update the temperature.
@@ -62,7 +91,7 @@ exports.insertCollectedData = function (deviceNum, temperature, latitude, longit
  * @param temp the new temperature
  */
 function insertNewTemperature(deviceNum, temp) {
-    let queryString = `UPDATE Device SET temperature=${temp} where deviceNum="${deviceNum}"`;
+    let queryString = `UPDATE Device SET temperature=${temp} WHERE deviceNum="${deviceNum}"`;
 
     pool.getConnection(function (err, conn) {
         if (err) {

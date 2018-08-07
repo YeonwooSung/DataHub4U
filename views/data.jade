@@ -45,7 +45,7 @@ html
 
                 document.getElementById('tempMax').innerText = 'Max: ' + maxTemp.toString() + '℃';
                 document.getElementById('tempMin').innerText = 'Min: ' + minTemp.toString() + '℃';
-                document.getElementById('tempAvg').innerText = 'Average: ' + (tempSum / count).toString() + '℃';
+                document.getElementById('tempAvg').innerText = 'Average: ' + (tempSum / count).toFixed(2).toString() + '℃';
             }
 
 

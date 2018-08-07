@@ -17,4 +17,12 @@ router.get('/', function(req, res) {
     }
 });
 
+
+/* POST (AJAX) */
+router.post('/', function (req, res) {
+    let index = req.params.index;
+    let deviceNum = req.params.deviceNum; //the device number of the target device
+    let deviceName = req.params.deviceName; //the new device name
+});
+
 module.exports = router;
