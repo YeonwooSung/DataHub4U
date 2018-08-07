@@ -22,7 +22,6 @@ let pool = mysql.createPool({
 });
 
 
-
 /**
  * This function helps the server to insert the data to the MySQL DB.
  * @param deviceNum the device number of the device that sent data.
@@ -63,7 +62,7 @@ exports.insertCollectedData = function (deviceNum, temperature, latitude, longit
  * @param temp the new temperature
  */
 function insertNewTemperature(deviceNum, temp) {
-    let queryString = `UPDATE Device SET temperature=${temp} where deviceNum=${deviceNum}`;
+    let queryString = `UPDATE Device SET temperature=${temp} where deviceNum="${deviceNum}"`;
 
     pool.getConnection(function (err, conn) {
         if (err) {

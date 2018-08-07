@@ -3,25 +3,26 @@ html
     head
         title #{title}
         meta(name='user page', content='width=device-width, initial-scale=1.0')
+        link(rel='stylesheet', href='../public/stylesheets/userPage.css')
         script.
             function appendDevices() {
-                var dataset = !{JSON.stringify(data)}
-                var l = dataset.length;
+                let dataSet = !{JSON.stringify(data)}
+                let l = dataSet.length;
 
-                var deviceList = document.getElementById('devices');
+                let deviceList = document.getElementById('devices');
 
                 var i;
-                for (i = 0; i < l; i++) { //iterate the dataset by using the for loop
-                    let deviceNum = dataset[i].deviceNum;
-                    let deviceName = dataset[i].deviceName;
+                for (i = 0; i < l; i++) { //iterate the data set by using the for loop
+                    let deviceNum = dataSet[i].deviceNum;
+                    let deviceName = dataSet[i].deviceName;
 
                     let div = document.createElement("div"); //new div tag that should be appended.
                     div.class = 'device';
 
-                    var temperDiv = document.createElement('div')
+                    let temperDiv = document.createElement('div')
                     temperDiv.id = 'temperature';
 
-                    let temperature = dataset[i].temperature;
+                    let temperature = dataSet[i].temperature;
 
                     let temperImg = document.createElement('img');
                     let temperSpan = document.createElement('span');
@@ -30,28 +31,21 @@ html
                     temperSpan.id = 'temperatureVal';
 
                     temperImg.src = '../public/images/if_temperature_354242.svg'
-                    temperImg.width = '35';
-                    temperImg.height = '35';
 
                     let deviceNameSpan = document.createElement('span');
                     deviceNameSpan.innerText = deviceName;
-                    deviceNameSpan.class = 'deviceName';
-                    deviceNameSpan.style.fontSize = '25px';
+                    deviceNameSpan.id = 'deviceName';
 
                     temperSpan.innerText = temperature + ' ℃';
-                    temperSpan.style.fontSize = '25px'
 
-                    let button = document.createElement('button');
-                    button.type = 'button';
-                    button.innerText = 'analyse';
-                    button.onclick = function() {
+                    //add the onclick event listener to the temperature div tag.
+                    temperDiv.onclick = function() {
                         redirectToDataPage(deviceNum);
                     };
 
                     temperDiv.appendChild(deviceNameSpan);
                     temperDiv.appendChild(temperImg);
                     temperDiv.appendChild(temperSpan);
-                    temperDiv.appendChild(button);
 
                     div.appendChild(temperDiv); //append the div tag for the temperature to the div tag for the device info.
                     deviceList.appendChild(div); //add the child node to the div tag who's id is 'devices'.
@@ -59,8 +53,12 @@ html
             }
 
             function redirectToDataPage(deviceNum) {
-                var url = 'https://192.168.219.154:8443/data?deviceNum=' + deviceNum;
-                url += '&user=' + document.getElementById('userID').innerText;
+                let currentURL = window.location.href;
+
+                currentURL = currentURL.split('/user')[0];
+
+                let url = `${currentURL}/data?deviceNum=${deviceNum}&user=` + document.getElementById('userID').innerText;
+
                 window.location.href = url;
             }
 
