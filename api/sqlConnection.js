@@ -57,13 +57,15 @@ exports.insertCollectedData = function (deviceNum, temperature, latitude, longit
 
 /**
  * This function supports the user to change the device name.
- * @param i the index of the device on the user page.
+ *
  * @param deviceName new device name
  * @param deviceNum target device's device number
+ * @param currentName current name of the device.
  * @param res response to the client.
  */
-exports.updateDeviceName = function(i, deviceName, deviceNum, res) {
-    let queryString = `UPDATE Device SET deviceName=" WHERE deviceNum="${deviceNum}"`;
+exports.updateDeviceName = function(deviceName, deviceNum, currentName, res) {
+    let queryString = `UPDATE Device SET deviceName="${deviceName}" WHERE deviceNum="${deviceNum}" AND deviceName="${currentName}"`;
+    console.log(queryString);
 
     pool.getConnection(function (err, conn) {
         if (err) {
@@ -76,9 +78,10 @@ exports.updateDeviceName = function(i, deviceName, deviceNum, res) {
                     console.log(str);
                     res.status(500).send(str);
                 } else {
+                    console.log(result);
                     console.log(`updateDeviceNum: the number of affected rows = ${result.affectedRows}`);
                     console.log(`Update the deviceName to ${deviceName} successfully!\n`);
-                    res.status(200).send(`${i}: ${deviceName}`);
+                    res.status(200).send('ok');
                 }
             });
         }

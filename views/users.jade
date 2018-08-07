@@ -5,27 +5,13 @@ html
         meta(name='user page', content='width=device-width, initial-scale=1.0')
         link(rel='stylesheet', href='../public/stylesheets/userPage.css')
         script.
-            let xhr = new XMLHttpRequest();
-
-            xhr.onreadystatechange = function () {
-                if (xhr.readyState === xhr.DONE) {
-                    if (xhr.status === 200 || xhr.status === 201) {
-                        let names = xhr.statusText.split(': ');
-                        //get the corresponding DOM element, and change the inner text of that element.
-                        document.getElementById(`deviceName${names[0]}`).innerText = names[1];
-                    } else {
-                        alert('Failed to change the device name!');
-                    }
-                }
-            }
-
             function appendDevices() {
                 let dataSet = !{JSON.stringify(data)}
                 let l = dataSet.length;
 
                 let deviceList = document.getElementById('devices');
 
-                var i;
+                let i;
                 for (i = 0; i < l; i++) { //iterate the data set by using the for loop
                     let deviceNum = dataSet[i].deviceNum;
                     let deviceName = dataSet[i].deviceName;
@@ -48,7 +34,7 @@ html
 
                     let deviceNameSpan = document.createElement('span');
                     deviceNameSpan.innerText = deviceName;
-                    deviceNameSpan.id = 'deviceName' + i;
+                    deviceNameSpan.id = deviceName;
 
                     temperSpan.innerText = temperature + ' ℃';
 
@@ -63,21 +49,33 @@ html
                     button.onclick = function() {
                         let newName = prompt('Please input the new device name', deviceName);
 
-                        changeTheDeviceName(i, deviceNum, newName); //send the AJAX request to the server to change the device name.
+                        changeTheDeviceName(deviceNum, newName, deviceName); //send the AJAX request to the server to change the device name.
                     }
 
                     temperDiv.appendChild(deviceNameSpan);
-                    temperDiv.append(button);
                     temperDiv.appendChild(temperImg);
                     temperDiv.appendChild(temperSpan);
 
                     div.appendChild(temperDiv); //append the div tag for the temperature to the div tag for the device info.
+                    div.appendChild(button);
                     deviceList.appendChild(div); //add the child node to the div tag who's id is 'devices'.
                 }
             }
 
-            function changeTheDeviceName(i, deviceNum, deviceName) {
-                let data = { index: i, deviceNum: deviceNum, deviceName: deviceName };
+            function changeTheDeviceName(deviceNum, deviceName, currentName) {
+                let xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === xhr.DONE) {
+                        if (xhr.status === 200 || xhr.status === 201) {
+                            document.getElementById(currentName).innerText = deviceName;
+                        } else {
+                            alert('Failed to change the device name!');
+                        }
+                    }
+                }
+
+                let data = { deviceNum: deviceNum, deviceName: deviceName, currentName: currentName };
 
                 xhr.open('POST', window.location.href);
                 xhr.setRequestHeader('Content-Type', 'application/json');
