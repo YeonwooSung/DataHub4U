@@ -2,10 +2,11 @@ doctype html
 html
     head
         title #{title}
-        meta(name='user page', content='width=device-width, initial-scale=1.0')
+        meta(name='user page', content='width=device-width; initial-scale=1.0; maximum-scale=2.0; minimum-scale=1.0; user-scalable=yes;')
         link(rel='stylesheet', href='../public/stylesheets/userPage.css')
         script.
             function appendDevices() {
+                let width = Math.max(window.innerWidth, document.documentElement.clientWidth);
                 let dataSet = !{JSON.stringify(data)}
                 let l = dataSet.length;
 
@@ -49,7 +50,10 @@ html
                     button.onclick = function() {
                         let newName = prompt('Please input the new device name', deviceName);
 
-                        changeTheDeviceName(deviceNum, newName, deviceName); //send the AJAX request to the server to change the device name.
+                        //to do nothing if the user clicked the 'cancel' button
+                        if (newName) {
+                            changeTheDeviceName(deviceNum, newName, deviceName); //send the AJAX request to the server to change the device name.
+                        }
                     }
 
                     temperDiv.appendChild(deviceNameSpan);
