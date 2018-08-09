@@ -18,8 +18,7 @@ let pool = mysql.createPool({
     host            : 'localhost',
     user            : 'root',
     password        : '',
-    database        : 'iot',
-    multipleStatements: true //to allow to use the multiple sql queries.
+    database        : 'iot'
 });
 
 
@@ -34,7 +33,7 @@ let pool = mysql.createPool({
  * @returns {Function} the function that inserts the data into the MySQL DB.
  */
 exports.insertCollectedData = function (deviceNum, temperature, latitude, longitude, timestamp, humidity) {
-    console.log('insertIntoTable: ', timestamp);
+    console.log('connections: ', pool._allConnections.length);
 
     let queryString = `INSERT INTO ${deviceNum} VALUE (${temperature}, "${latitude}", "${longitude}", "${timestamp}", ${humidity})`;
 
@@ -52,6 +51,8 @@ exports.insertCollectedData = function (deviceNum, temperature, latitude, longit
                 }
             });
         }
+
+        conn.release();
     }); //conn.connect function ends.
 
 };
@@ -84,6 +85,7 @@ exports.updateDeviceName = function(deviceName, deviceNum, currentName, res) {
                 }
             });
         }
+        conn.release();
     });
 };
 
@@ -93,6 +95,7 @@ exports.updateDeviceName = function(deviceName, deviceNum, currentName, res) {
  * @param temp the new temperature
  */
 function insertNewTemperature(deviceNum, temp) {
+    console.log(`update the device ${deviceNum}'s most recent temperature value: ${temp}`);
     let queryString = `UPDATE Device SET temperature=${temp} WHERE deviceNum="${deviceNum}"`;
 
     pool.getConnection(function (err, conn) {
@@ -107,6 +110,8 @@ function insertNewTemperature(deviceNum, temp) {
                 }
             });
         }
+
+        conn.release();
     });
 }
 
@@ -144,6 +149,8 @@ exports.getIdFromDB = function(id, pw) {
                 }
             });
         }
+
+        conn.release();
     });
 };
 
@@ -181,6 +188,8 @@ exports.getPasswordFromDB = function (id, pw) {
                 }
             });
         }
+
+        conn.release();
     });
 };
 
@@ -210,6 +219,8 @@ exports.getDeviceNumbers = function (id, res) {
             });
 
         }
+
+        conn.release();
     });
 };
 
@@ -240,5 +251,7 @@ exports.getData = function (user, deviceNum, res) {
             });
 
         }
+
+        conn.release();
     });
 };

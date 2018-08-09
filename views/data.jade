@@ -34,8 +34,8 @@ html
                     title: 'temperature graph',
                     curveType: 'function',
                     legend: {position: 'bottom'},
-                    backgroundColor: '#ff66ff',
-                    hAxis : { textPosition: 'none' }
+                    hAxis : { textPosition: 'none' },
+                    colors: ['red']
                 };
 
                 var container = document.getElementById('content');
@@ -124,7 +124,7 @@ html
         div(style='background-color: #6666ff')
             h1 User: #{user}
             h2 Device: #{deviceNum}
-        div(class='content', style='background-color: #ff99ff')
+        div(class='content')
             div(id='content', style='height: 100%; width: 100%')
             div
                 center
@@ -143,7 +143,7 @@ html
                             button(type='button' id='okButton' onclick='drawChart()') OK
                         div(style='margin-top: 10px')
                             input(type='date', id='userCalendar', name='userCalendar', onchange='selectUserInputRadioButton()')
-        div(class='max_min', style='margin-top: 10px; background-color: #ffccff')
+        div(class='max_min', style='margin-top: 10px')
             div(class='humidity')
                 div(class='humidityTitle')
                 div(class='humidityData' style='margin-left: 20px')
