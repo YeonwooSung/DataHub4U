@@ -1,8 +1,10 @@
 var express = require('express');
 var router = express.Router();
 
-//import the '../util.js' for the user authentication.
-var util = require('../api/util');
+//use the sql queries to check if the user is registered.
+let conn = require('./sqlConnection');
+
+const crypto = require('crypto');
 
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -11,26 +13,10 @@ router.get('/', function(req, res) {
 
 /* GET log in authentication */
 router.get('/authenticate', function(req, res) {
-    var id = req.query.id;
-    var pw = req.query.pw;
+    let id = req.query.id;
+    let pw = req.query.pw;
 
-    var logIn = util.getLogIn(id, pw);
-
-    if (logIn !== null) {
-        console.log("Authentication failed!");
-
-        res.send('Authentication failed!\nPlease re-do the log in!');
-    } else {
-
-        if (logIn.authLever >= 1) {
-            res.writeHead(200, {
-                'Set-Cookie':['id=' + id, 'pw=' + pw, 'Permanent=cookies; Max-Age=${60*60*24*30}'] //max age = 1 month
-            });
-            //TODO log in finished..
-        } else {
-            //TODO send the message "wrong password"
-        }
-    }
+    pw = crypto.createHash('sha512').update(pw).digest('base64');
 });
 
 module.exports = router;

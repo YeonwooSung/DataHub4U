@@ -50,9 +50,9 @@ exports.insertCollectedData = function (deviceNum, temperature, latitude, longit
                     insertNewTemperature(deviceNum, temperature);
                 }
             });
-        }
 
-        conn.release();
+            conn.release();
+        }
     }); //conn.connect function ends.
 
 };
@@ -84,8 +84,9 @@ exports.updateDeviceName = function(deviceName, deviceNum, currentName, res) {
                     res.status(200).send('ok');
                 }
             });
+
+            conn.release();
         }
-        conn.release();
     });
 };
 
@@ -109,9 +110,9 @@ function insertNewTemperature(deviceNum, temp) {
                     console.log('The number of rows that are affected by updating: ' + result.affectedRows);
                 }
             });
-        }
 
-        conn.release();
+            conn.release();
+        }
     });
 }
 
@@ -148,9 +149,9 @@ exports.getIdFromDB = function(id, pw) {
 
                 }
             });
-        }
 
-        conn.release();
+            conn.release();
+        }
     });
 };
 
@@ -187,9 +188,9 @@ exports.getPasswordFromDB = function (id, pw) {
                     }
                 }
             });
-        }
 
-        conn.release();
+            conn.release();
+        }
     });
 };
 
@@ -218,9 +219,8 @@ exports.getDeviceNumbers = function (id, res) {
                 }
             });
 
+            conn.release();
         }
-
-        conn.release();
     });
 };
 
@@ -233,7 +233,7 @@ exports.getDeviceNumbers = function (id, res) {
  * @param res the instance that sends the response to the client.
  */
 exports.getData = function (user, deviceNum, res) {
-    let queryString = `SELECT * FROM ${deviceNum}`;
+    let queryString = `SELECT * FROM ${deviceNum} order by timestamp desc limit 288`;
 
     pool.getConnection(function (err, conn) {
         if (err) {
@@ -250,8 +250,7 @@ exports.getData = function (user, deviceNum, res) {
                 }
             });
 
+            conn.release();
         }
-
-        conn.release();
     });
 };

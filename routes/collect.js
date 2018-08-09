@@ -6,13 +6,13 @@ var db = require('../api/sqlConnection');
 /* GET */
 router.get('/', function(req, res) {
 
-    var deviceNum = req.query.deviceNum;
-    var temperature = req.query.temperature;
-    var latitude = req.query.latitude;
-    var longitude = req.query.longitude;
-    var timestamp = getTheCurrentLocaleTimeString();
+    let deviceNum = req.query.deviceNum;
+    let temperature = req.query.temperature;
+    let latitude = req.query.latitude;
+    let longitude = req.query.longitude;
+    let timestamp = getTheCurrentTimeString();
 
-    db.insertCollectedData(deviceNum, temperature, latitude, longitude, timestamp, 60);
+    db.insertCollectedData(deviceNum, temperature, latitude, longitude, timestamp, 70);
 
     res.render('collect', { title: 'Temperature data'});
 });
@@ -24,27 +24,18 @@ router.get('/', function(req, res) {
  *
  * @returns {*} the current timestamp string.
  */
-function getTheCurrentLocaleTimeString() {
-    var str;
+function getTheCurrentTimeString() {
+    let dateObj = new Date();
 
-    var dateObj = new Date();
+    let year = dateObj.getFullYear();
+    let month = dateObj.getMonth() + 1;
+    let date = dateObj.getDate();
 
-    var localeString = dateObj.toLocaleString('en-GB');
+    let hour = dateObj.getUTCHours();
+    let minute = dateObj.getUTCMinutes();
+    let second = dateObj.getUTCSeconds();
 
-    var strArray = localeString.split(',');
-
-    var dateArray = strArray[0].split('/');
-
-    console.log('dateArray: ' + dateArray);
-
-    str = dateArray[2] + "-";
-    str += dateArray[0];
-    str += "-";
-    str += dateArray[1];
-    str += strArray[1];
-
-
-    console.log(str); //to debug the date time stuff.
+    var str = `${year}-${month}-${date} ${hour}:${minute}:${second}`;
 
     return str;
 

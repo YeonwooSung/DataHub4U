@@ -7,17 +7,18 @@ html
         script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
         script.
             google.charts.load('current', {'packages': ['corechart']});
-            google.charts.setOnLoadCallback(init);
+            google.charts.setOnLoadCallback(initPage);
 
             var dataset = !{JSON.stringify(data)};
 
-            var maxTemp,minTemp, tempSum, tmaxDate, tminDate, count;
+            var maxTemp, minTemp, tempSum, count, maxHumi, minHumi, humiSum;
 
-            /**
-             * The aim of this function is initializing this web page.
-             */
-            function init() {
-                document.getElementById('1month').checked = true;
+            function initPage() {
+                document.getElementById('goBackButton').onclick= function() {
+                    const url = window.location.href.split('/data');
+                    const url2 = url[1].split('user=')[1];
+                    window.location.href = `${url[0]}/user?id=${url2}`;
+                };
                 drawChart();
             }
 
@@ -25,12 +26,13 @@ html
              * This function draws the graph by using the google line chart api.
              */
             function drawChart() {
-                var array= [['date time', 'temperature']];
-                array = makeValidDataForm(array);
-                var data = google.visualization.arrayToDataTable(array);
+                let array = makeValidDataForm();
 
-                //required options
-                var options = {
+                let temperatureData = google.visualization.arrayToDataTable(array[0]);
+                let humidityData = google.visualization.arrayToDataTable(array[1]);
+
+                //required options for the temperature graph
+                let temperatureOptions = {
                     title: 'temperature graph',
                     curveType: 'function',
                     legend: {position: 'bottom'},
@@ -38,78 +40,94 @@ html
                     colors: ['red']
                 };
 
-                var container = document.getElementById('content');
+                let humidityOptions = {
+                    title: 'humidity graph',
+                    curveType: 'function',
+                    legend: {position: 'bottom'},
+                    hAxis: { textPosition: 'none' },
+                    colors: ['blue']
+                }
 
-                var chart = new google.visualization.LineChart(container);
-                chart.draw(data, options);
+                let temperatureContainer = document.getElementById('temperatureContent');
+                let humidityContainer = document.getElementById('humidityContent');
+
+                var tempChart = new google.visualization.LineChart(temperatureContainer);
+                var humiChart = new google.visualization.LineChart(humidityContainer);
+
+                tempChart.draw(temperatureData, temperatureOptions);
+                humiChart.draw(humidityData, humidityOptions);
 
                 document.getElementById('tempMax').innerText = 'Max: ' + maxTemp.toString() + '℃';
                 document.getElementById('tempMin').innerText = 'Min: ' + minTemp.toString() + '℃';
                 document.getElementById('tempAvg').innerText = 'Average: ' + (tempSum / count).toFixed(2).toString() + '℃';
+
+                document.getElementById('humidityMax').innerText = 'Max: ' + maxHumi.toString() + '%';
+                document.getElementById('humidityMin').innerText = 'Min: ' + minHumi.toString() + '%';
+                document.getElementById('humidityAvg').innerText = 'Average: ' + (humiSum / count).toFixed(2).toString() + '%';
             }
 
 
             /**
              * This function selects the valid data from the given data set.
              */
-            function makeValidDataForm(array) {
-                var i, temp, date, lastDate;
+            function makeValidDataForm() {
+                let tempArray = [['date time', 'temperature']];
+                let humiArray = [['date time', 'humidity']];
+                let i, temp, humidity, date;
 
                 maxTemp = minTemp = dataset[0].temperature;
+                maxHumi = minHumi = dataset[0].humidity;
+
                 tempSum = 0;
+                humiSum = 0;
 
-                tmaxDate = tminDate = [new Date(Date.parse(dataset[0].timestamp))];
-                lastDate = new Date(Date.parse(dataset[dataset.length - 1].timestamp));
-
-                var limitDate = new Date(lastDate); //the limit date (starting date of the graph data)
-
-                //by using the if-else statement, check which radio button was clicked
-                if (document.getElementById('calendarInput').checked) {
-                    var calVal = document.getElementById('userCalendar').value;
-                    limitDate = new Date(Date.parse(calVal));
-                } else if (document.getElementById('1hour').checked) {
-                    limitDate.setHours(lastDate.getHours() - 1);
-                } else if (document.getElementById('1day').checked) {
-                    limitDate.setDate(lastDate.getDate() - 1);
-                } else if (document.getElementById('1week').checked) {
-                    limitDate.setDate(lastDate.getDate() - 7);
-                } else {
-                    limitDate.setMonth(lastDate.getMonth() - 1);
-                }
+                const last = dataset.length - 1;
 
                 count = 0;
 
                 //iterates the given data set, and appends the valid data to the graph data list.
-                for (i = 0; i < dataset.length; i++) {
+                for (i = last; i >= 0; i--) {
                     date = new Date(Date.parse(dataset[i].timestamp));
 
-                    if (date < limitDate) { //check if the date is in the target range.
-                        continue;
-                    }
-
                     temp = [];
-                    temp.push(date.toString());
+                    humidity = [];
+
+                    let currDate = date.toString();
+
+                    temp.push(currDate);
                     temp.push(dataset[i].temperature);
+
+                    humidity.push(currDate);
+                    humidity.push(dataset[i].humidity);
 
                     if (maxTemp < dataset[i].temperature) { //check if the current temperature is the highest one
                         maxTemp = dataset[i].temperature;
-                        tmaxDate = [date];
-                    } else if (maxTemp === dataset[i].temperature) {
-                        tmaxDate.push(date);
                     }
 
                     if (minTemp > dataset[i].temperature) { //check if the current temperature is the lowest one
-                        tminDate = [date];
                         minTemp = dataset[i].temperature;
-                    } else if (minTemp === dataset[i].temperature) {
-                        tminDate.push(date);
+                    }
+
+                    if (maxHumi < dataset[i].humidity) {
+                        maxHumi = dataset[i].humidity;
+                    }
+
+                    if (minHumi > dataset[i].humidity) {
+                        minHumi = dataset[i].humidity;
                     }
 
                     tempSum += dataset[i].temperature;
+                    humiSum += dataset[i].humidity;
 
-                    array.push(temp);
+                    tempArray.push(temp);
+                    humiArray.push(humidity);
+
                     count += 1;
                 }
+
+                let array = [];
+                array.push(tempArray);
+                array.push(humiArray);
 
                 return array; //return the list that contains the data to draw the graph.
             }
@@ -124,35 +142,25 @@ html
         div(style='background-color: #6666ff')
             h1 User: #{user}
             h2 Device: #{deviceNum}
-        div(class='content')
-            div(id='content', style='height: 100%; width: 100%')
-            div
-                center
-                    form
-                        div
-                            input(type='radio', id='calendarInput', name='term', style='display: none')
-                            label(for='calendarInput', style='display: none')
-                            input(type='radio', id='1hour', name='term')
-                            label(for='1hour') 1시간
-                            input(type='radio', id='1day', name='term')
-                            label(for='1day') 1일
-                            input(type='radio', id='1week', name='term')
-                            label(for='1week') 1주일
-                            input(type='radio', id='1month', name='term')
-                            label(for='1month') 1개월
-                            button(type='button' id='okButton' onclick='drawChart()') OK
-                        div(style='margin-top: 10px')
-                            input(type='date', id='userCalendar', name='userCalendar', onchange='selectUserInputRadioButton()')
-        div(class='max_min', style='margin-top: 10px')
-            div(class='humidity')
-                div(class='humidityTitle')
-                div(class='humidityData' style='margin-left: 20px')
-                    div(id='humidityMax')
-                    div(id='humidityMin')
-                    div(id='humidityAvg')
-            div(class='temperature')
-                div(class='tempTitle', style='margin-left: 20px') Temperature
-                div(class='tempData')
-                    div(id='tempMax')
-                    div(id='tempMin')
-                    div(id='tempAvg')
+        div(class='temperature')
+            div(class='content')
+                div(id='temperatureContent', style='height: 100%; width: 100%')
+            div(class='max_min', style='margin-top: 10px')
+                div(class='temperature')
+                    div(class='tempTitle', style='margin-left: 20px') Temperature
+                    div(class='tempData')
+                        div(id='tempMax')
+                        div(id='tempMin')
+                        div(id='tempAvg')
+        div(class='humidity')
+            div(class='content')
+                div(id='humidityContent', style='height: 100%; width: 100%')
+            div(class='max_min', style='margin-top: 10px')
+                div(class='humidity')
+                    div(class='humidityTitle')
+                    div(class='humidityData' style='margin-left: 20px') Humidity
+                        div(id='humidityMax')
+                        div(id='humidityMin')
+                        div(id='humidityAvg')
+        div(id='return')
+            button(type='button', id='goBackButton') Go Back
