@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 
 //use the sql queries to check if the user is registered.
-let conn = require('./sqlConnection');
+let conn = require('../api/sqlConnection');
 
-const crypto = require('crypto');
+let util = require('../api/util');
 
 /* GET users listing. */
 router.get('/', function(req, res) {
@@ -16,7 +16,11 @@ router.get('/authenticate', function(req, res) {
     let id = req.query.id;
     let pw = req.query.pw;
 
-    pw = crypto.createHash('sha512').update(pw).digest('base64');
+    if ((pw = util.encodePassword(pw)) !== undefined) {
+        //
+    } else {
+        res.status(501).send('password encoding failed');
+    }
 });
 
 module.exports = router;

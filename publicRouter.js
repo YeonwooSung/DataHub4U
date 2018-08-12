@@ -6,6 +6,7 @@ router.get('/images/if_temperature_354242.svg', function(req, res) {
     res.sendFile(__dirname + '/public/images/if_temperature_354242.svg');
 });
 
+/* GET stylesheet for the user page */
 router.get('/stylesheets/userPage.css', function (req, res) {
     res.sendFile(__dirname + '/public/stylesheets/userPage.css');
 });

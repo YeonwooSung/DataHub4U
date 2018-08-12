@@ -1,4 +1,4 @@
-var mysql = require('mysql');
+const mysql = require('mysql');
 
 //messages
 const FAILED = "Connection failed!";
