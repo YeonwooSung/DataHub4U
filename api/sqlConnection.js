@@ -5,7 +5,6 @@ const FAILED = "Connection failed!";
 const FAILED_GET_DEVICE_NUM = " failed to get device number!";
 const FAILED_GET_DATA = "Failed to get data: ";
 const INSERTION_FAILED = 'INSERT INTO query failed!!';
-const LOGIN_QUERY_FAILED = 'The login query was failed!!';
 
 
 /**
@@ -118,42 +117,79 @@ function insertNewTemperature(deviceNum, temp) {
 
 
 /**
- * This function checks if the given id and password is stored in the MariaDB by comparing the id.
+ * Insert the user information to the database to register new user.
  *
- * @param id the user id.
- * @param pw the user password.
+ * @param userName the user name
+ * @param id the user's id
+ * @param password the user's password
+ * @param res the response object that sends the response to the client
  */
-exports.getIdFromDB = function(id, pw) {
-    let queryString = `SELECT id FROM User WHERE id="${pw}"`;
+function registerNewUser(userName, id, password, res) {
+    let queryString = `INSERT INTO User VALUE ("${id}", "${password}", "${userName}")`;
 
     pool.getConnection(function (err, conn) {
         if (err) {
-            console.log(FAILED);
-
-            return -1;
+            sendErrorMessage(res, err);
         } else {
-
             conn.query(queryString, function (err, result, fields) {
                 if (err) {
-                    console.log(LOGIN_QUERY_FAILED);
-                    return -1;
+                    sendErrorMessage(res, err);
                 } else {
-
-                    const value = result[0].id;
-
-                    if (value === id) {
-                        return 1;
-                    } else {
-                        return 0;
-                    }
-
+                    console.log('The number of affected rows: ' + result.affectedRows);
+                    res.render('login', { title: 'Log In' });
                 }
             });
+            conn.release();
+        }
+    });
+}
 
+/**
+ * Check if the given id is already in use.
+ * @param userName the user's name
+ * @param id the id of the user
+ * @param password the user's password
+ * @param res the response object that sends the response to the client
+ */
+exports.checkIfRegisteredAlready = (userName, id, password, res) => {
+    let queryString = `SELECT * from User where id="${id}"`;
+
+    pool.getConnection(function (err, conn) {
+        if (err) {
+            sendErrorMessage(res, err);
+        } else {
+            conn.query(queryString, function (err, result, fields) {
+                if (err) {
+                    sendErrorMessage(res, err);
+                } else {
+                    if (result) {
+                        const alertID = { id: id };
+                        res.render('register', {title: 'Register', alert: alertID});
+                    } else {
+                        registerNewUser(userName, id, password, res);
+                    }
+                }
+            });
             conn.release();
         }
     });
 };
+
+/**
+ * This function sends the error message to the client.
+ * @param res the response object that sends the error message to the client
+ * @param err the error that is occurred
+ */
+function sendErrorMessage(res, err) {
+    // set locals, only providing error in development
+    res.locals.message = err.message;
+    res.locals.error = err;
+
+    // render the error page
+    err.status = 500;
+    res.status(err.status);
+    res.render('error');
+}
 
 
 /**
@@ -161,34 +197,38 @@ exports.getIdFromDB = function(id, pw) {
  *
  * @param id the user id.
  * @param pw the user password.
+ * @param res the response object that sends the response to the client
  */
-exports.getPasswordFromDB = function (id, pw) {
+exports.doTheLogInProcess = function (id, pw, res) {
     let queryString = `SELECT password FROM User WHERE id="${id}"`;
 
     pool.getConnection(function(err, conn) {
         if (err) {
-            console.log(FAILED);
-
-            return -1;
+            console.log('server error!');
+            let val = { message: 'server error!' };
+            res.render('login', { title: 'Log In', val: val });
         } else {
-
             conn.query(queryString, function(err, result, fields) {
                 if (err) {
-                    console.log(FAILED);
-
-                    return -1;
+                    console.log('server error!');
+                    let val = { message: 'server error!' };
+                    res.render('login', { title: 'Log In', val: val });
                 } else {
-
-                    var value = result[0].password;
-
-                    if (value === pw) {
-                        return 1;
+                    if (result[0]) {
+                        if (result[0].password === pw) {
+                            res.render('index', { title: 'Data Thing' });
+                        } else {
+                            console.log('wrong password!');
+                            let val = { message: 'wrong password!' };
+                            res.render('login', { title: 'Log In', val: val });
+                        }
                     } else {
-                        return 0;
+                        console.log('wrong id!');
+                        let val = { message: 'wrong id!' };
+                        res.render('login', { title: 'Log In', val: val });
                     }
                 }
             });
-
             conn.release();
         }
     });
@@ -207,13 +247,13 @@ exports.getDeviceNumbers = function (id, res) {
     pool.getConnection(function (err, conn) {
         if (err) {
             console.log(FAILED);
-            res.status(500).send(FAILED);
+            sendErrorMessage(res, err);
         } else {
 
             conn.query(queryString, function(err, result, fields) {
                 if (err) {
                     console.log(id + FAILED_GET_DEVICE_NUM);
-                    res.status(500).send(id + FAILED_GET_DEVICE_NUM);
+                    sendErrorMessage(res, err);
                 } else {
                     res.render('users', { title: 'user', user: id, data: result });
                 }
@@ -238,13 +278,13 @@ exports.getData = function (user, deviceNum, res) {
     pool.getConnection(function (err, conn) {
         if (err) {
             console.log(FAILED);
-            res.status(500).send(FAILED);
+            sendErrorMessage(res, err);
         } else {
 
             conn.query(queryString, function (err, result, fields) {
                 if (err) {
                     console.log(FAILED_GET_DATA, deviceNum);
-                    res.status(500).send(FAILED);
+                    sendErrorMessage(res, err);
                 } else {
                     res.render('data', { title: 'data visualization', user: user, deviceNum: deviceNum, data: result });
                 }

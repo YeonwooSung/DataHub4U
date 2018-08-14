@@ -1,52 +1,95 @@
-doctype 5
+doctype html
 html
     head
-        title Dashboard :: Register
-        link(rel='stylesheet', href='//cdn.kendostatic.com/2013.3.1119/styles/kendo.common.min.css')
-        link(rel='stylesheet', href='//cdn.kendostatic.com/2013.3.1119/styles/kendo.bootstrap.min.css')
+        title "AppName" :: Register
         link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
-        link(rel='stylesheet', href='stylesheets/style.css')
-        script.
-            function initPage() {
-                //
-            }
-
-            window.onload(initPage);
+        link(rel='stylesheet', href='stylesheets/registerStyle.css')
     body
         .login.well
-            h1  Welcome aboard!
+            h1  Welcome
             hr
-            form(id='register-form', method='POST', action='/register' novalidate)
+            form(id='register-form', onsubmit='return confirmUserInfo()', method='POST', action='/register')
                 .form-group
-                    label(for='display') Display Name
-                    input(type='text', name='display', class='form-control',
-                    id='display', placeholder='Enter display name',
-                    required, data-required-msg='Display Name is required')
+                    label(for='userName') Name
+                    input(type='text', name='userName', class='form-control form-control-lg',
+                    id='userName', placeholder='Enter your name',
+                    required, data-required-msg='User name is required')
                 .form-group
-                    label(for='username') Username
-                    input(type='text', name='username', class='form-control',
-                    id='username', placeholder='Enter username',
-                    required, data-required-msg='Username is required')
+                    label(for='id') ID
+                    input(type='text', name='id', class='form-control form-control-lg',
+                    id='id', placeholder='Enter ID',
+                    required, data-required-msg='ID is required')
                 .form-group
                     label(for='password') Password
-                    input(type='password', name='password', class='form-control',
+                    input(type='password', name='password', class='form-control form-control-lg',
                     id='password', placeholder='Enter password'
                     required, data-required-msg='Password is required')
                 .form-group
                     label(for='confirm-password') Confirm Password
-                    input(type='password', name='confirm-password', class='form-control',
+                    input(type='password', name='confirm-password', class='form-control form-control-lg',
                     id='confirm-password', placeholder='Confirm password'
                     required, data-required-msg="Please confirm your password")
                 .form-group
                     label(for='email') Email
-                    input(type='email', name='email', class='form-control',
+                    input(type='email', name='email', class='form-control form-control-lg',
                     id='email', placeholder='Enter email',
                     required data-required-msg='Email address is required')
                 .form-group
                     label(for='confirm-email') Confirm Email
-                    input(type='email', name='confirm-email', class='form-control',
+                    input(type='email', name='confirm-email', class='form-control form-control-lg',
                     id='confirm-email', placeholder='Confirm email',
                     required data-required-msg='Please confirm your email address')
                 .form-group
-                    button.btn.btn-default Register
-                    a(href="login") Or Login
+                    button.btn.btn-default(id='registerButton', type='submit') Register
+                    a(href="login", style='margin-left: 10px') Or Login
+                .hiddenDiv(id='hidden_div')
+        script.
+            function confirmUserInfo() {
+                let element = document.getElementById('hidden_div').childNodes[0];
+
+                if (element) {
+                    document.getElementById('hidden_div').removeChild(element);
+                }
+
+                let password = document.getElementById('password').value;
+                let confirmedPassword = document.getElementById('confirm-password').value;
+
+                if (password !== confirmedPassword) {
+                    makeNewElement('Please recheck the password and confirm-password.', 'passwordDiv');
+                    return false;
+                }
+
+                let email = document.getElementById('email').value;
+                let confirmedEmail = document.getElementById('confirm-email').value;
+
+                if (email !== confirmedEmail) {
+                    makeNewElement('Please recheck the email and confirm-email sections.', 'emailDiv');
+                    return false;
+                }
+
+                return true;
+            }
+
+            function makeNewElement(text) {
+                if (document.getElementById(id)) {
+                    return;
+                }
+                let newDiv = document.createElement('div');
+                newDiv.innerText = text;
+                newDiv.style.color = 'red';
+                newDiv.style.fontSize = '3vmin';
+
+                document.getElementById('hidden_div').appendChild(newDiv);
+            }
+
+            function alertDuplicatedID() {
+                const alerted = !{JSON.stringify(alert)};
+
+                console.log(alerted);
+
+                if (alerted) {
+                    window.alert(`The ID ${alerted.id} is already in used. Please choose the other id.`);
+                }
+            }
+
+            window.onload = alertDuplicatedID;

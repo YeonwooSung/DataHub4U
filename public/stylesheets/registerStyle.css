@@ -1,0 +1,37 @@
+body {
+  padding-top: 10px;
+  padding-right: 25vw;
+  padding-left: 25vw;
+}
+
+hr {
+  margin-bottom: 2vmax;
+}
+
+.login.well {
+  height: 75vmax;
+}
+
+h1 {
+  font: 3vmax "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+label {
+  font: 4vmin "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+input {
+  margin-top: 1vmax;
+  margin-bottom: 3vmax;
+}
+
+button {
+  padding-top: 5px;
+  color: #333;
+}
+
+a {
+  padding-top: 5px;
+  font: 2vmin "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #00B7FF;
+}

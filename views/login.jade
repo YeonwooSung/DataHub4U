@@ -3,18 +3,31 @@ html
     head
         title "AppName" :: Login
         link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
-        link(rel='stylesheet', href='stylesheets/style.css')
+        link(rel='stylesheet', href='stylesheets/loginStyle.css')
+        script.
+            function validateLogIn() {
+                let val = !{JSON.stringify(val)};
+
+                if (val) {
+                    let div = document.createElement('div');
+                    div.innerText = val.message;
+                    div.style.color = 'red';
+                    document.getElementById('hiddenErrorMessage').appendChild(div);
+                }
+            }
+            window.onload = validateLogIn;
     body
         .login.well
             h1  Please log in...
             hr
-            form(id='login-form', method='POST', action='/login')
+            form(id='login-form', method='POST', action='/login/authenticate')
                 .form-group
-                    label(for='username') Username
-                    input(type='text', name='username', class='form-control', id='username', placeholder='Enter username')
+                    label(for='id') ID
+                    input(type='text', name='id', class='form-control', id='id', placeholder='Enter ID')
                 .form-group
                     label(for='password') Password
                     input(type='password', name='password', class='form-control', id='password', placeholder='Enter password')
                 .form-group
-                    button.btn.btn-default Login
+                    button.btn.btn-default(id='loginButton') Login
                     a(href="register", style='margin-left: 10px') Or Register
+            .hiddenMessage(id='hiddenErrorMessage')
