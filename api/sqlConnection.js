@@ -45,7 +45,6 @@ exports.insertCollectedData = function (deviceNum, temperature, latitude, longit
                     console.log(INSERTION_FAILED);
                     throw err;
                 } else {
-                    console.log(`The number of rows that are affected by insertion: ${result.affectedRows}`);
                     insertNewTemperature(deviceNum, temperature);
                 }
             });
@@ -78,8 +77,6 @@ exports.updateDeviceName = function(deviceName, deviceNum, currentName, res) {
                     console.log(str);
                     res.status(500).send(str);
                 } else {
-                    console.log(`updateDeviceNum: the number of affected rows = ${result.affectedRows}`);
-                    console.log(`Update the deviceName to ${deviceName} successfully!\n`);
                     res.status(200).send('ok');
                 }
             });
@@ -105,8 +102,6 @@ function insertNewTemperature(deviceNum, temp) {
             conn.query(queryString, function (err, result, fields) {
                 if (err) {
                     throw err;
-                } else {
-                    console.log('The number of rows that are affected by updating: ' + result.affectedRows);
                 }
             });
 
@@ -162,7 +157,7 @@ exports.checkIfRegisteredAlready = (userName, id, password, res) => {
                 if (err) {
                     sendErrorMessage(res, err);
                 } else {
-                    if (result) {
+                    if (result[0]) {
                         const alertID = { id: id };
                         res.render('register', {title: 'Register', alert: alertID});
                     } else {
@@ -215,7 +210,7 @@ exports.doTheLogInProcess = function (id, pw, res) {
                     res.render('login', { title: 'Log In', val: val });
                 } else {
                     if (result[0]) {
-                        if (result[0].password === pw) {
+                        if (result[0].password.toString() === pw.toString()) {
                             res.render('index', { title: 'Data Thing' });
                         } else {
                             console.log('wrong password!');
@@ -239,6 +234,7 @@ exports.doTheLogInProcess = function (id, pw, res) {
  * This function gets the array of tuples that contain DeviceNum and DeviceName.
  *
  * @param id the id of the user
+ * @param res the response object that sends the response to the client
  * @return the array of tuple (deviceNum, deviceName)
  */
 exports.getDeviceNumbers = function (id, res) {
@@ -273,7 +269,7 @@ exports.getDeviceNumbers = function (id, res) {
  * @param res the instance that sends the response to the client.
  */
 exports.getData = function (user, deviceNum, res) {
-    let queryString = `SELECT * FROM ${deviceNum} order by timestamp desc limit 288`;
+    let queryString = `SELECT temperature, humidity, timestamp FROM ${deviceNum} WHERE timestamp >= NOW() - INTERVAL 1 DAY`;
 
     pool.getConnection(function (err, conn) {
         if (err) {
@@ -290,6 +286,91 @@ exports.getData = function (user, deviceNum, res) {
                 }
             });
 
+            conn.release();
+        }
+    });
+};
+
+
+/**
+ * This function gets the weekly data of the specific device from the database.
+ *
+ * @param deviceNum the device number of the target device
+ * @param res the response object to send the ajax response to the client
+ */
+exports.getWeekData = (deviceNum, res) => {
+    let queryString = `SELECT temperature, humidity, timestamp FROM ${deviceNum} WHERE timestamp >= NOW() - INTERVAL 1 WEEK`;
+
+    pool.getConnection((err, conn) => {
+        if (err) {
+            console.log(FAILED);
+            sendErrorMessage(res, err);
+        } else {
+            conn.query(queryString, (err, result, fields) => {
+                if (err) {
+                    console.log(FAILED_GET_DATA, deviceNum);
+                    sendErrorMessage(res, err);
+                } else {
+                    res.status(200).send(result);
+                }
+            });
+            conn.release();
+        }
+    });
+};
+
+
+/**
+ * This function gets the monthly data of the particular device from the database.
+ *
+ * @param deviceNum the device number of the target device
+ * @param res the response object to send the ajax response to the client
+ */
+exports.getMonthData = (deviceNum, res) => {
+    let queryString = `SELECT temperature, humidity, timestamp FROM ${deviceNum} WHERE timestamp >= NOW() - INTERVAL 1 MONTH`;
+
+    pool.getConnection((err, conn) => {
+        if (err) {
+            console.log(FAILED);
+            sendErrorMessage(res, err);
+        } else {
+            conn.query(queryString, (err, result, fields) => {
+                if (err) {
+                    console.log(FAILED_GET_DATA, deviceNum);
+                    sendErrorMessage(res, err);
+                } else {
+                    res.status(200).send(result);
+                }
+            });
+        }
+    });
+};
+
+
+/**
+ * This function gets the data that is in the range of the custom date from the database.
+ *
+ * @param start the start date of the custom range
+ * @param end the end date of the custom range
+ * @param deviceNum the device number of the target device
+ * @param res the response object
+ */
+exports.getCustomRangeData = (start, end, deviceNum, res) => {
+    let queryString = `SELECT temperature, humidity, timestamp FROM ${deviceNum} WHERE timestamp >= "${start}" AND timestamp <= "${end}"`;
+
+    pool.getConnection((err, conn) => {
+        if (err) {
+            console.log(FAILED);
+            sendErrorMessage(res, err);
+        } else {
+            conn.query(queryString, (err, result, fields) => {
+                if (err) {
+                    console.log(FAILED_GET_DATA, deviceNum);
+                    sendErrorMessage(res, err);
+                } else {
+                    res.status(200).send(result);
+                }
+            });
             conn.release();
         }
     });

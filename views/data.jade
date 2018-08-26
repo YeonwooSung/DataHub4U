@@ -3,6 +3,11 @@ html
     head
         title #{title}
         meta(name='user page', content='width=device-width, initial-scale=1.0')
+        link(rel='stylesheet', href='../public/stylesheets/dataPage.css')
+        link(rel='stylesheet', href='//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css')
+        script(type='text/javascript', src='../public/javascripts/jquery.min.js')
+        script(type='text/javascript', src='../public/javascripts/moment.min.js')
+        script(type='text/javascript', src='//cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js')
     body
         script(type="text/javascript" src="https://www.gstatic.com/charts/loader.js")
         script.
@@ -11,22 +16,111 @@ html
 
             var dataset = !{JSON.stringify(data)};
 
-            var maxTemp, minTemp, tempSum, count, maxHumi, minHumi, humiSum;
+            var currentClickedElement;
+
+            function prepareDrawing(id,data, num) {
+                document.getElementById(currentClickedElement).style.color = 'LightGrey';
+                currentClickedElement = id;
+                document.getElementById(currentClickedElement).style.color = 'Black';
+                drawChart(data, num);
+            }
+
+            function draw_5hourData() {
+                makeDatePickerInvisible();
+                if (dataset.length > 60) {
+                    prepareDrawing('5hours', dataset, 60);
+                } else {
+                    prepareDrawing('5hours', dataset, dataset.length);
+                }
+            }
+
+            function draw_12hourData() {
+                makeDatePickerInvisible();
+                if (dataset.length > 144) {
+                    prepareDrawing('12hours', dataset, 144);
+                } else {
+                    prepareDrawing('12hours', dataset, dataset.length);
+                }
+            }
+
+            function draw_1dayData() {
+                makeDatePickerInvisible();
+                prepareDrawing('1day', dataset, dataset.length);
+            }
+
+            function draw_1weekData() {
+                doAJAXFor1WeekAnd1Month('1week', 'week');
+            }
+
+            function draw_1monthData() {
+                doAJAXFor1WeekAnd1Month('1month', 'month');
+            }
+
+            function doAJAXFor1WeekAnd1Month(id, range) {
+                makeDatePickerInvisible();
+
+                document.getElementById(currentClickedElement).style.color = 'LightGrey';
+                currentClickedElement = id;
+                document.getElementById(currentClickedElement).style.color = 'Black';
+
+                let xhr = new XMLHttpRequest();
+
+                xhr.onreadystatechange = function () {
+                    if (xhr.readyState === xhr.DONE) {
+                        if (xhr.status === 200) {
+                            let tempData = JSON.parse(xhr.response);
+                            drawChart(tempData, tempData.length);
+                        } else {
+                            alert('Failed to get the data from the server!');
+                        }
+                    }
+                }
+
+                let deviceNum = window.location.href.split('deviceNum=')[1].split('&')[0];
+
+                xhr.open('GET', `/data/${range}?deviceNum=${deviceNum}`);
+                xhr.send();
+            }
+
+            function makeDatePickerInvisible() {
+                document.getElementById('customRange').style.visibility = 'hidden';
+            }
+
+            function customizeDateRange() {
+                document.getElementById('customRange').style.visibility = 'visible';
+
+                document.getElementById(currentClickedElement).style.color = 'LightGrey';
+                currentClickedElement = 'customized';
+                document.getElementById(currentClickedElement).style.color = 'Black';
+            }
 
             function initPage() {
-                document.getElementById('goBackButton').onclick= function() {
-                    const url = window.location.href.split('/data');
-                    const url2 = url[1].split('user=')[1];
-                    window.location.href = `${url[0]}/user?id=${url2}`;
-                };
-                drawChart();
+                currentClickedElement = '1day';
+                document.getElementById('5hours').onclick = draw_5hourData;
+                document.getElementById('12hours').onclick = draw_12hourData;
+                document.getElementById('1day').onclick = draw_1dayData;
+                document.getElementById('1week').onclick = draw_1weekData;
+                document.getElementById('1month').onclick = draw_1monthData;
+                document.getElementById('customized').onclick = customizeDateRange;
+
+                $(function () {
+                    $('#datePicker').daterangepicker({
+                        opens: 'center',
+                        autoApply: true,
+                        maxDate: moment()
+                    }, function (start, end, label) {
+                        console.log("A new date selection was made: " + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD'));
+                    });
+                });
+
+                document.getElementById('1day').click();
             }
 
             /**
              * This function draws the graph by using the google line chart api.
              */
-            function drawChart() {
-                let array = makeValidDataForm();
+            function drawChart(data, num) {
+                let array = makeValidDataForm(data, num);
 
                 let temperatureData = google.visualization.arrayToDataTable(array[0]);
                 let humidityData = google.visualization.arrayToDataTable(array[1]);
@@ -35,7 +129,7 @@ html
                 let temperatureOptions = {
                     title: 'temperature graph',
                     curveType: 'function',
-                    legend: {position: 'bottom'},
+                    legend: {position: 'none'},
                     hAxis : { textPosition: 'none' },
                     colors: ['red']
                 };
@@ -43,7 +137,7 @@ html
                 let humidityOptions = {
                     title: 'humidity graph',
                     curveType: 'function',
-                    legend: {position: 'bottom'},
+                    legend: {position: 'none'},
                     hAxis: { textPosition: 'none' },
                     colors: ['blue']
                 }
@@ -56,68 +150,61 @@ html
 
                 tempChart.draw(temperatureData, temperatureOptions);
                 humiChart.draw(humidityData, humidityOptions);
-
-                document.getElementById('tempMax').innerText = 'Max: ' + maxTemp.toString() + '℃';
-                document.getElementById('tempMin').innerText = 'Min: ' + minTemp.toString() + '℃';
-                document.getElementById('tempAvg').innerText = 'Average: ' + (tempSum / count).toFixed(2).toString() + '℃';
-
-                document.getElementById('humidityMax').innerText = 'Max: ' + maxHumi.toString() + '%';
-                document.getElementById('humidityMin').innerText = 'Min: ' + minHumi.toString() + '%';
-                document.getElementById('humidityAvg').innerText = 'Average: ' + (humiSum / count).toFixed(2).toString() + '%';
             }
-
 
             /**
              * This function selects the valid data from the given data set.
              */
-            function makeValidDataForm() {
+            function makeValidDataForm(data, num) {
                 let tempArray = [['date time', 'temperature']];
                 let humiArray = [['date time', 'humidity']];
                 let i, temp, humidity, date;
 
-                maxTemp = minTemp = dataset[0].temperature;
-                maxHumi = minHumi = dataset[0].humidity;
+                let maxTemp, minTemp, tempSum, count, maxHumi, minHumi, humiSum;
+
+                maxTemp = minTemp = data[0].temperature;
+                maxHumi = minHumi = data[0].humidity;
 
                 tempSum = 0;
                 humiSum = 0;
 
-                const last = dataset.length - 1;
-
                 count = 0;
 
+                let init = data.length - num;
+                let last = data.length;
+
                 //iterates the given data set, and appends the valid data to the graph data list.
-                for (i = last; i >= 0; i--) {
-                    date = new Date(Date.parse(dataset[i].timestamp));
+                for (i = init; i < last; i++) {
+                    date = new Date(Date.parse(data[i].timestamp));
 
                     temp = [];
                     humidity = [];
 
                     let currDate = date.toString();
-
                     temp.push(currDate);
-                    temp.push(dataset[i].temperature);
+                    temp.push(data[i].temperature);
 
                     humidity.push(currDate);
-                    humidity.push(dataset[i].humidity);
+                    humidity.push(data[i].humidity);
 
-                    if (maxTemp < dataset[i].temperature) { //check if the current temperature is the highest one
-                        maxTemp = dataset[i].temperature;
+                    if (maxTemp < data[i].temperature) { //check if the current temperature is the highest one
+                        maxTemp = data[i].temperature;
                     }
 
-                    if (minTemp > dataset[i].temperature) { //check if the current temperature is the lowest one
-                        minTemp = dataset[i].temperature;
+                    if (minTemp > data[i].temperature) { //check if the current temperature is the lowest one
+                        minTemp = data[i].temperature;
                     }
 
-                    if (maxHumi < dataset[i].humidity) {
-                        maxHumi = dataset[i].humidity;
+                    if (maxHumi < data[i].humidity) {
+                        maxHumi = data[i].humidity;
                     }
 
-                    if (minHumi > dataset[i].humidity) {
-                        minHumi = dataset[i].humidity;
+                    if (minHumi > data[i].humidity) {
+                        minHumi = data[i].humidity;
                     }
 
-                    tempSum += dataset[i].temperature;
-                    humiSum += dataset[i].humidity;
+                    tempSum += data[i].temperature;
+                    humiSum += data[i].humidity;
 
                     tempArray.push(temp);
                     humiArray.push(humidity);
@@ -129,38 +216,106 @@ html
                 array.push(tempArray);
                 array.push(humiArray);
 
+                document.getElementById('tempMax').innerText = maxTemp.toString() + '℃';
+                document.getElementById('tempMin').innerText = minTemp.toString() + '℃';
+                document.getElementById('tempAvg').innerText = (tempSum / count).toFixed(2).toString() + '℃';
+
+                document.getElementById('humidityMax').innerText = maxHumi.toString() + '%';
+                document.getElementById('humidityMin').innerText = minHumi.toString() + '%';
+                document.getElementById('humidityAvg').innerText = (humiSum / count).toFixed(2).toString() + '%';
+
                 return array; //return the list that contains the data to draw the graph.
             }
-
-            /**
-             * The event listener function to check if the user selects the date with the date picker.
-             */
-            function selectUserInputRadioButton() {
-                document.getElementById('calendarInput').checked = true;
-            }
-        header
-        div(style='background-color: #6666ff')
+        header(id='navigate_bar', class='navigate_bar')
+            .navbarContainer
+                nav(class='navbar navbar-light')
+                    .navbar-collapse(id='header_navigator')
+                        ul(class='navbar-nav')
+                            li(class='nav-item')
+                                button(class='goBackButton', id='goBackButton', title='go back to the previous page', onclick='window.history.back()')
+                                    img(src='../public/images/goBack.svg', id='goBack_image')
+                            li(class='nav-item')
+                                a(class='nav-link', href='/', title='go to homepage', id='homeButton')
+                                    img(src='../public/images/home.svg', id='home_link_image')
+        .userInfoContainer(id='container')
             h1 User: #{user}
             h2 Device: #{deviceNum}
-        div(class='temperature')
-            div(class='content')
-                div(id='temperatureContent', style='height: 100%; width: 100%')
-            div(class='max_min', style='margin-top: 10px')
-                div(class='temperature')
-                    div(class='tempTitle', style='margin-left: 20px') Temperature
-                    div(class='tempData')
-                        div(id='tempMax')
-                        div(id='tempMin')
-                        div(id='tempAvg')
-        div(class='humidity')
-            div(class='content')
-                div(id='humidityContent', style='height: 100%; width: 100%')
-            div(class='max_min', style='margin-top: 10px')
-                div(class='humidity')
-                    div(class='humidityTitle')
-                    div(class='humidityData' style='margin-left: 20px') Humidity
-                        div(id='humidityMax')
-                        div(id='humidityMin')
-                        div(id='humidityAvg')
-        div(id='return')
-            button(type='button', id='goBackButton') Go Back
+        .data
+            .grp_nav
+                .navListDiv
+                    ul(class='graph_navigator_list')
+                        li(class='nav_tab')
+                            a(href='javascript:;', id='5hours', class='dateRangeLink') 5시간
+                        li(class='nav_tab')
+                            a(href='javascript:;', id='12hours', class='dateRangeLink') 12시간
+                        li(class='nav_tab')
+                            a(href='javascript:;', id='1day', class='dateRangeLink') 1일
+                        li(class='nav_tab')
+                            a(href='javascript:;', id='1week', class='dateRangeLink') 1주일
+                        li(class='nav_tab')
+                            a(href='javascript:;', id='1month', class='dateRangeLink') 1달
+                        li(class='nav_tab')
+                            a(href='javascript:;', id='customized', class='dateRangeLink') 사용자 지정
+                .customDateRange(id='customRange')
+                    script.
+                        function replaceDateFormat(str, searchString, replaceString) {
+                            str = str.split(searchString);
+                            return str[2] + replaceString + str[0] + replaceString + str[1];
+                        }
+
+                        function getTheCustomDateData() {
+                            let xhr = new XMLHttpRequest();
+
+                            xhr.onreadystatechange = function () {
+                                if (xhr.readyState === xhr.DONE) {
+                                    if (xhr.status === 200) {
+                                        let tempData = JSON.parse(xhr.response);
+                                        drawChart(tempData, tempData.length);
+                                    } else {
+                                        alert('Failed to get the data from the server!');
+                                    }
+                                }
+                            }
+
+                            let dateRange = document.getElementById('datePicker').value;
+                            let dateArray = dateRange.split(' - ');
+                            let deviceNum = window.location.href.split('deviceNum=')[1].split('&')[0];
+                            let start = replaceDateFormat(dateArray[0], '/', '-');
+                            let end = replaceDateFormat(dateArray[1], '/', '-');
+
+                            xhr.open('GET', `/data/custom?deviceNum=${deviceNum}&start=${start}&end=${end}`);
+                            xhr.setRequestHeader('Content-Type', 'application/json');
+                            xhr.send();
+                        }
+                    form
+                        input(id='datePicker', name='dateRangeStart', type='text', readonly='readonly')
+                        button(type='button', id='customDateButton', onclick='getTheCustomDateData()') OK
+            .grp
+                .temperature
+                    .content
+                        .dataContent(id='temperatureContent')
+                    .values
+                        .temperatureData
+                            center
+                                img(class='dataImg', id='temperatureImg', src='../public/images/if_temperature_354242.svg')
+                                .dataValue
+                                    p Max (℃)
+                                    p(class='valueParagraph', id='tempMax')
+                                    p Min (℃)
+                                    p(class='valueParagraph', id='tempMin')
+                                    p Avg (℃)
+                                    p(class='valueParagraph', id='tempAvg')
+                .humidity
+                    .content
+                        .dataContent(id='humidityContent')
+                    .values
+                        .humidityData
+                            center
+                                img(class='dataImg' id='humidityImg', src='../public/images/if_weather_44_2682807.png')
+                                .dataValue
+                                    p Max (%)
+                                    p(class='valueParagraph', id='humidityMax')
+                                    p Min (%)
+                                    p(class='valueParagraph', id='humidityMin')
+                                    p Avg (%)
+                                    p(class='valueParagraph', id='humidityAvg')

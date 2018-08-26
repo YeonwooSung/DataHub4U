@@ -1,0 +1,85 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    height: 5vmax;
+}
+
+div {
+    padding: 0;
+}
+
+img {
+    height: 5vmax;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    margin-right: 3vmin;
+    float: left;
+}
+
+.graph_navigator_list {
+    padding-left: 25vw;
+}
+
+a.dateRangeLink {
+    font-size: 3vmin;
+    color: #D3D3D3;
+}
+
+.customDateRange {
+    margin-top: 3vmin;
+    margin-bottom: 2vmin;
+    text-align: center;
+}
+
+#datePicker {
+    margin-right: 4vmin;
+    width: 30vmin;
+    height: 5vmin;
+    font-size: 3vmin;
+}
+
+#customDateButton {
+    width: 6vmin;
+    height: 5vmin;
+    font-size: 3vmin;
+}
+
+#container {
+    background-color: aqua;
+}
+
+.content {
+    width: 100%;
+    height: 25vmax;
+}
+
+.dataContent {
+    width: 100%;
+    height: 100%;
+    margin-top: 5vmin;
+}
+
+.dataImg {
+    width: 10vmin;
+}
+
+p {
+    margin-right: 3vmin;
+    font-family: "Times", "Times New Roman", serif;
+    display: inline;
+}
+
+p.valueParagraph {
+    margin-right: 4vmin;
+}
