@@ -1,0 +1,33 @@
+h1 {
+    color: #000000;
+    font-size: 8vmin;
+}
+
+h2 {
+    color: #000000;
+    font-size: 6vmin;
+    margin-bottom: 15vmin;
+}
+
+#temperature {
+    border-style: groove;
+    border-color: #808080;
+    margin-top: 3vmin;
+    margin-bottom: 3vmin;
+    height: 10vmin;
+}
+
+span {
+    font-size: 5vmin;
+    color: #000000;
+}
+
+#temperatureVal {
+    margin-left: 2vmax;
+    margin-right: 3vmax;
+}
+
+#temperatureImg {
+    height: 7vmin;
+    margin-left: 30vw;
+}
