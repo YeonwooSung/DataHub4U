@@ -16,6 +16,8 @@ html
 
             var dataset = !{JSON.stringify(data)};
 
+            var weeklyData = undefined;
+
             var currentClickedElement;
 
             function prepareDrawing(id,data, num) {
@@ -49,7 +51,17 @@ html
             }
 
             function draw_1weekData() {
-                doAJAXFor1WeekAnd1Month('1week', 'week');
+                if (weeklyData === undefined) {
+                    doAJAXFor1WeekAnd1Month('1week', 'week');
+                } else {
+                    makeDatePickerInvisible();
+
+                    document.getElementById(currentClickedElement).style.color = 'LightGrey';
+                    currentClickedElement = '1week';
+                    document.getElementById(currentClickedElement).style.color = 'Black';
+
+                    drawChart(weeklyData, weeklyData.length);
+                }
             }
 
             function draw_1monthData() {
@@ -69,6 +81,11 @@ html
                     if (xhr.readyState === xhr.DONE) {
                         if (xhr.status === 200) {
                             let tempData = JSON.parse(xhr.response);
+
+                            if (id === '1week') {
+                                weeklyData = tempData;
+                            }
+
                             drawChart(tempData, tempData.length);
                         } else {
                             alert('Failed to get the data from the server!');
