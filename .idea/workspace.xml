@@ -29,8 +29,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+            <state relative-caret-position="120">
+              <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
             </state>
           </provider>
         </entry>
@@ -260,21 +260,7 @@
       <workItem from="1534652344544" duration="3802000" />
       <workItem from="1534657068437" duration="36645000" />
       <workItem from="1535129745953" duration="7785000" />
-      <workItem from="1535618066276" duration="7905000" />
-    </task>
-    <task id="LOCAL-00045" summary="make the certification files work">
-      <created>1531484966389</created>
-      <option name="number" value="00045" />
-      <option name="presentableId" value="LOCAL-00045" />
-      <option name="project" value="LOCAL" />
-      <updated>1531484966389</updated>
-    </task>
-    <task id="LOCAL-00046" summary="remove the TODO list that I already achieved.">
-      <created>1531485162195</created>
-      <option name="number" value="00046" />
-      <option name="presentableId" value="LOCAL-00046" />
-      <option name="project" value="LOCAL" />
-      <updated>1531485162195</updated>
+      <workItem from="1535618066276" duration="7998000" />
     </task>
     <task id="LOCAL-00047" summary="modified some constants">
       <created>1531485852829</created>
@@ -605,11 +591,25 @@
       <option name="project" value="LOCAL" />
       <updated>1535700937528</updated>
     </task>
-    <option name="localTasksCounter" value="94" />
+    <task id="LOCAL-00094" summary="trying to fix an error on the readme">
+      <created>1535701103389</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1535701103389</updated>
+    </task>
+    <task id="LOCAL-00095" summary="trying to fix an error on the readme">
+      <created>1535701159081</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1535701159081</updated>
+    </task>
+    <option name="localTasksCounter" value="96" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="319083000" />
+    <option name="totallyTimeSpent" value="319176000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="716" extended-state="0" />
@@ -920,8 +920,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
+        <state relative-caret-position="120">
+          <caret line="8" column="10" selection-start-line="8" selection-start-column="10" selection-end-line="8" selection-end-column="10" />
         </state>
       </provider>
     </entry>
