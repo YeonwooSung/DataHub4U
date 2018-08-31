@@ -29,8 +29,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="135">
+              <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
             </state>
           </provider>
         </entry>
@@ -260,21 +260,7 @@
       <workItem from="1534652344544" duration="3802000" />
       <workItem from="1534657068437" duration="36645000" />
       <workItem from="1535129745953" duration="7785000" />
-      <workItem from="1535618066276" duration="7654000" />
-    </task>
-    <task id="LOCAL-00043" summary="add some additional codes for the SQL connection.">
-      <created>1531467108294</created>
-      <option name="number" value="00043" />
-      <option name="presentableId" value="LOCAL-00043" />
-      <option name="project" value="LOCAL" />
-      <updated>1531467108294</updated>
-    </task>
-    <task id="LOCAL-00044" summary="add more fields (latitude and longitude) to the database table.">
-      <created>1531468722652</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1531468722652</updated>
+      <workItem from="1535618066276" duration="7905000" />
     </task>
     <task id="LOCAL-00045" summary="make the certification files work">
       <created>1531484966389</created>
@@ -605,11 +591,25 @@
       <option name="project" value="LOCAL" />
       <updated>1535644967356</updated>
     </task>
-    <option name="localTasksCounter" value="92" />
+    <task id="LOCAL-00092" summary="add the screenshot to the readme file">
+      <created>1535700856042</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1535700856042</updated>
+    </task>
+    <task id="LOCAL-00093" summary="trying to fix an error on the readme">
+      <created>1535700937528</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1535700937528</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="318832000" />
+    <option name="totallyTimeSpent" value="319083000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="716" extended-state="0" />
@@ -643,8 +643,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="remove unnecessary code" />
-    <MESSAGE value="make the https protocol work" />
     <MESSAGE value="start implementing graph drawing features" />
     <MESSAGE value="start using the cookie" />
     <MESSAGE value="implemeting cookie stuffs" />
@@ -668,7 +666,9 @@
     <MESSAGE value="implemented the &quot;date range&quot; feature" />
     <MESSAGE value="add the userPage.css" />
     <MESSAGE value="start implementing the start page" />
-    <option name="LAST_COMMIT_MESSAGE" value="start implementing the start page" />
+    <MESSAGE value="add the screenshot to the readme file" />
+    <MESSAGE value="trying to fix an error on the readme" />
+    <option name="LAST_COMMIT_MESSAGE" value="trying to fix an error on the readme" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -920,8 +920,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="135">
+          <caret line="9" lean-forward="true" selection-start-line="9" selection-end-line="9" />
         </state>
       </provider>
     </entry>
