@@ -6,7 +6,7 @@
 
 The DataHub4U helps you to collect data and analyse the collected data.
 
-![alt text] (https://github.com/YeonwooSung/DataHub4U/blob/master/public/images/screenshot_of_datapage_prototype.png)
+<img width="1263" alt="screenshot_of_datapage_prototype" src="https://user-images.githubusercontent.com/30489717/44899708-74dc3900-ad3d-11e8-8502-c450bd5f4746.png">
 
 
 ## License
