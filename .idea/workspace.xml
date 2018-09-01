@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="f96c3a3f-9662-486e-a2ad-8755991ab0dc" name="Default" comment="update the readme file">
+    <list default="true" id="f96c3a3f-9662-486e-a2ad-8755991ab0dc" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
@@ -29,8 +29,8 @@
       <file leaf-file-name="README.md" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="35" column="46" lean-forward="true" selection-start-line="35" selection-start-column="46" selection-end-line="35" selection-end-column="46" />
+            <state relative-caret-position="-155">
+              <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
             </state>
           </provider>
         </entry>
@@ -260,14 +260,7 @@
       <workItem from="1534652344544" duration="3802000" />
       <workItem from="1534657068437" duration="36645000" />
       <workItem from="1535129745953" duration="7785000" />
-      <workItem from="1535618066276" duration="13173000" />
-    </task>
-    <task id="LOCAL-00052" summary="removed unnecessary debugging messages">
-      <created>1531502363776</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1531502363777</updated>
+      <workItem from="1535618066276" duration="13312000" />
     </task>
     <task id="LOCAL-00053" summary="add the current timestamp value to the SQL query string, and implement functions to get the current timestampe (by using the UNIX timestamp)">
       <created>1531582367949</created>
@@ -605,11 +598,18 @@
       <option name="project" value="LOCAL" />
       <updated>1535801619554</updated>
     </task>
-    <option name="localTasksCounter" value="101" />
+    <task id="LOCAL-00101" summary="Doing the documentation work">
+      <created>1535818957606</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1535818957606</updated>
+    </task>
+    <option name="localTasksCounter" value="102" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="324351000" />
+    <option name="totallyTimeSpent" value="324490000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="716" extended-state="0" />
@@ -643,7 +643,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="implemeting cookie stuffs" />
     <MESSAGE value="now the '/data' page could draw the line graph by using the google chart api" />
     <MESSAGE value="add additional features to the data page" />
     <MESSAGE value="start implementing the '/users' page" />
@@ -668,7 +667,8 @@
     <MESSAGE value="trying to fix an error on the readme" />
     <MESSAGE value="delete the pdf file" />
     <MESSAGE value="update the readme file" />
-    <option name="LAST_COMMIT_MESSAGE" value="update the readme file" />
+    <MESSAGE value="Doing the documentation work" />
+    <option name="LAST_COMMIT_MESSAGE" value="Doing the documentation work" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -920,8 +920,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="35" column="46" lean-forward="true" selection-start-line="35" selection-start-column="46" selection-end-line="35" selection-end-column="46" />
+        <state relative-caret-position="-155">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
     </entry>

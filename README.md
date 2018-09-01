@@ -26,7 +26,6 @@ You could see the trend of the temperature change and the humidity change easily
 
 
 The image above is the screenshot of the temperature graph.
-
 You could see that there are 6 links on the graph.
 By clicking one of those links, you could set the date range of your data graph.
 
@@ -39,9 +38,9 @@ Otherwise, you will be failed to draw a graph.
 
 ## To Do List
 
-### 1. Alert when the current temperature or humidity is too high or too low.
-### 2. Update the device from ESP8266 to ESP32
-### 3. Convert the error page thing to something else!! (It will gonna make an error on the Web App)
+1. Alert when the current temperature or humidity is too high or too low.
+2. Update the device from ESP8266 to ESP32
+3. Convert the error page thing to something else!! (It will gonna make an error on the Web App)
 
 
 
