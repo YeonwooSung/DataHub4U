@@ -98,6 +98,14 @@ html
 
             window.onload = appendDevices; //call the appendDevices function when the page is on load.
     body
+        header(id='navigate_bar', class='navigate_bar')
+            .navbarContainer
+                nav(class='navbar navbar-light')
+                    .navbar-collapse(id='header_navigator')
+                        ul(class='navbar-nav')
+                            li(class='nav-item')
+                                a(class='nav-link', href='/', title='go to homepage', id='homeButton')
+                                    img(src='../public/images/home.svg', id='home_link_image')
         h1 application name
         h2(id='userID') #{user}
         div(class='devices', id='devices')
