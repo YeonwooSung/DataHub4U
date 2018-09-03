@@ -5,15 +5,12 @@ html
     title #{title}
     script.
       function initPage() {
-          let user = JSON.stringify(!{data});
-
-          if (user.online) {
-              //
-          } else {
-              let offline = document.getElementById('offline');
-          }
+          //offline online checking..
       }
+
+      window.onload = initPage; //execute the initPage() function when the page is loaded
   body
     header
       .homeHeader
-      .offlineOnly(id='offline')
+          .onlineOnly(id='online')
+          .offlineOnly(id='offline')

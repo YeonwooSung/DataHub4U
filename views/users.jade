@@ -6,7 +6,6 @@ html
         link(rel='stylesheet', href='../public/stylesheets/userPage.css')
         script.
             function appendDevices() {
-                let width = Math.max(window.innerWidth, document.documentElement.clientWidth);
                 let dataSet = !{JSON.stringify(data)}
                 let l = dataSet.length;
 
@@ -106,6 +105,5 @@ html
                             li(class='nav-item')
                                 a(class='nav-link', href='/', title='go to homepage', id='homeButton')
                                     img(src='../public/images/home.svg', id='home_link_image')
-        h1 application name
-        h2(id='userID') #{user}
+        h2(id='userID') User: #{user}
         div(class='devices', id='devices')

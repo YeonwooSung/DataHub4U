@@ -1,6 +1,21 @@
-h1 {
-    color: #000000;
-    font-size: 8vmin;
+header {
+    height: 5vmax;
+}
+
+img {
+    height: 5vmax;
+}
+
+ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    margin-right: 3vmin;
+    float: left;
 }
 
 h2 {

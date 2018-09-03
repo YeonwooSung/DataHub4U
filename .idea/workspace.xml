@@ -3,9 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f96c3a3f-9662-486e-a2ad-8755991ab0dc" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/layout.jade" beforeDir="false" afterPath="$PROJECT_DIR$/views/layout.jade" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/login.jade" beforeDir="false" afterPath="$PROJECT_DIR$/views/login.jade" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/register.jade" beforeDir="false" afterPath="$PROJECT_DIR$/views/register.jade" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/stylesheets/loginStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/loginStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/stylesheets/registerStyle.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/registerStyle.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/stylesheets/usePage.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/userPage.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/index.jade" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.jade" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/users.jade" beforeDir="false" afterPath="$PROJECT_DIR$/views/users.jade" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -23,8 +24,8 @@
       <file leaf-file-name="publicRouter.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/publicRouter.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="480">
-              <caret line="32" selection-start-line="32" selection-end-line="32" />
+            <state relative-caret-position="227">
+              <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
             </state>
           </provider>
         </entry>
@@ -41,35 +42,17 @@
       <file leaf-file-name="index.jade" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/views/index.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="17" column="17" lean-forward="true" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+            <state relative-caret-position="195">
+              <caret line="13" column="17" lean-forward="true" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="login.jade" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/views/login.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="360">
-              <caret line="24" column="48" lean-forward="true" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="users.jade" pinned="false" current-in-tab="false">
+      <file leaf-file-name="users.jade" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/views/users.jade">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" column="15" lean-forward="true" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="register.jade" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/views/register.jade">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+            <state relative-caret-position="319">
+              <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
             </state>
           </provider>
         </entry>
@@ -83,11 +66,29 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="usePage.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/stylesheets/usePage.css">
+      <file leaf-file-name="userPage.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/stylesheets/userPage.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="77">
+              <caret line="20" selection-start-line="20" selection-end-line="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="registerStyle.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/stylesheets/registerStyle.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="285">
+              <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="dataPage.css" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/public/stylesheets/dataPage.css">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="6" lean-forward="true" selection-start-column="6" selection-end-column="6" />
             </state>
           </provider>
         </entry>
@@ -112,6 +113,7 @@
       <find>conn.end()</find>
       <find>count</find>
       <find>console.log</find>
+      <find>width</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -120,7 +122,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/views/collect.jade" />
         <option value="$PROJECT_DIR$/Arduino/Collector.ino" />
         <option value="$PROJECT_DIR$/public/javascripts/logInSupport.js" />
         <option value="$PROJECT_DIR$/public/javascripts/logInSupporter.js" />
@@ -144,7 +145,6 @@
         <option value="$PROJECT_DIR$/public/stylesheets/embedded_login.css" />
         <option value="$PROJECT_DIR$/views/embedded_login.jade" />
         <option value="$PROJECT_DIR$/public/stylesheets/style.css" />
-        <option value="$PROJECT_DIR$/public/stylesheets/loginStyle.css" />
         <option value="$PROJECT_DIR$/test.html" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/api/util.js" />
@@ -161,16 +161,18 @@
         <option value="$PROJECT_DIR$/publicRouter.js" />
         <option value="$PROJECT_DIR$/public/stylesheets/dataPage.css" />
         <option value="$PROJECT_DIR$/routes/data.js" />
-        <option value="$PROJECT_DIR$/public/stylesheets/userPage.css" />
-        <option value="$PROJECT_DIR$/public/stylesheets/usePage.css" />
         <option value="$PROJECT_DIR$/views/data.jade" />
         <option value="$PROJECT_DIR$/api/sqlConnection.js" />
-        <option value="$PROJECT_DIR$/views/index.jade" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/views/layout.jade" />
-        <option value="$PROJECT_DIR$/views/users.jade" />
         <option value="$PROJECT_DIR$/views/login.jade" />
         <option value="$PROJECT_DIR$/views/register.jade" />
+        <option value="$PROJECT_DIR$/views/index.jade" />
+        <option value="$PROJECT_DIR$/public/stylesheets/usePage.css" />
+        <option value="$PROJECT_DIR$/public/stylesheets/loginStyle.css" />
+        <option value="$PROJECT_DIR$/public/stylesheets/registerStyle.css" />
+        <option value="$PROJECT_DIR$/public/stylesheets/userPage.css" />
+        <option value="$PROJECT_DIR$/views/users.jade" />
       </list>
     </option>
   </component>
@@ -224,6 +226,12 @@
               <item name="DataHub4U" type="462c0819:PsiDirectoryNode" />
               <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="images" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="DataHub4U" type="b2602c69:ProjectViewProjectNode" />
+              <item name="DataHub4U" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="stylesheets" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="DataHub4U" type="b2602c69:ProjectViewProjectNode" />
@@ -294,14 +302,7 @@
       <workItem from="1534657068437" duration="36645000" />
       <workItem from="1535129745953" duration="7785000" />
       <workItem from="1535618066276" duration="15012000" />
-      <workItem from="1535882099920" duration="756000" />
-    </task>
-    <task id="LOCAL-00054" summary="fix some stupid mistake">
-      <created>1531582632555</created>
-      <option name="number" value="00054" />
-      <option name="presentableId" value="LOCAL-00054" />
-      <option name="project" value="LOCAL" />
-      <updated>1531582632555</updated>
+      <workItem from="1535882099920" duration="7726000" />
     </task>
     <task id="LOCAL-00055" summary="change the data type of the temperature from int to float">
       <created>1531724983789</created>
@@ -639,17 +640,24 @@
       <option name="project" value="LOCAL" />
       <updated>1535819096762</updated>
     </task>
-    <option name="localTasksCounter" value="103" />
+    <task id="LOCAL-00103" summary="append the go_home_page button to each page">
+      <created>1535885101443</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1535885101444</updated>
+    </task>
+    <option name="localTasksCounter" value="104" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="326946000" />
+    <option name="totallyTimeSpent" value="333916000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="716" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49918962" visible="true" weight="0.2494043" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.49918962" visible="true" weight="0.2494043" />
       <window_info anchor="bottom" id="TODO" order="8" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50039715" side_tool="true" weight="0.3263328" />
@@ -677,7 +685,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="add additional features to the data page" />
     <MESSAGE value="start implementing the '/users' page" />
     <MESSAGE value="appended some tags for data page and user page" />
     <MESSAGE value="change the name from ImageRouter to publicRouter, and add more javascript codes to the user.jade file" />
@@ -702,7 +709,8 @@
     <MESSAGE value="update the readme file" />
     <MESSAGE value="Doing the documentation work" />
     <MESSAGE value="indentation of the readme.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="indentation of the readme.md" />
+    <MESSAGE value="append the go_home_page button to each page" />
+    <option name="LAST_COMMIT_MESSAGE" value="append the go_home_page button to each page" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -734,21 +742,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/stylesheets/embedded_login.css" />
     <entry file="file://$PROJECT_DIR$/views/embedded_login.jade" />
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/loginStyle.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/test.html" />
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/registerStyle.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="77">
-          <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/routes/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -807,13 +801,6 @@
     <entry file="file://$PROJECT_DIR$/public/javascripts/jquery-ui.js" />
     <entry file="file://$PROJECT_DIR$/public/stylesheets/jquery-ui.css" />
     <entry file="file://$PROJECT_DIR$/public/test.html" />
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/dataPage.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="62" column="16" selection-start-line="62" selection-start-column="16" selection-end-line="62" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="615">
@@ -875,31 +862,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/publicRouter.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/LICENSE">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="189" lean-forward="true" selection-start-line="189" selection-end-line="189" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/stylesheets/usePage.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" selection-start-line="28" selection-end-line="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" selection-start-line="14" selection-end-line="14" />
         </state>
       </provider>
     </entry>
@@ -924,24 +890,59 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/index.jade">
+    <entry file="file://$PROJECT_DIR$/views/login.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="17" column="17" lean-forward="true" selection-start-line="17" selection-start-column="17" selection-end-line="17" selection-end-column="17" />
+        <state relative-caret-position="360">
+          <caret line="24" column="48" lean-forward="true" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/views/register.jade">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="23" selection-start-line="3" selection-start-column="23" selection-end-line="3" selection-end-column="23" />
+        <state relative-caret-position="225">
+          <caret line="15" column="19" lean-forward="true" selection-start-line="15" selection-start-column="19" selection-end-line="15" selection-end-column="19" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/users.jade">
+    <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="15" lean-forward="true" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="15" />
+        <state relative-caret-position="210">
+          <caret line="14" selection-start-line="14" selection-end-line="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/index.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="13" column="17" lean-forward="true" selection-start-line="13" selection-start-column="17" selection-end-line="13" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/dataPage.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="6" lean-forward="true" selection-start-column="6" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/loginStyle.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/registerStyle.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="285">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/publicRouter.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="227">
+          <caret line="27" lean-forward="true" selection-start-line="27" selection-end-line="27" />
         </state>
       </provider>
     </entry>
@@ -952,10 +953,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/views/login.jade">
+    <entry file="file://$PROJECT_DIR$/public/stylesheets/userPage.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="360">
-          <caret line="24" column="48" lean-forward="true" selection-start-line="24" selection-start-column="48" selection-end-line="24" selection-end-column="48" />
+        <state relative-caret-position="77">
+          <caret line="20" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/views/users.jade">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="319">
+          <caret line="56" lean-forward="true" selection-start-line="56" selection-end-line="56" />
         </state>
       </provider>
     </entry>
