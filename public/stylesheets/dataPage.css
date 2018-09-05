@@ -4,7 +4,8 @@ body {
 }
 
 header {
-    height: 5vmax;
+    height: 7vmax;
+    background-color: #455b7c;
 }
 
 div {

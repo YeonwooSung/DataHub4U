@@ -7,7 +7,7 @@ html
         script(type='text/javascript', src='../public/javascripts/userPage.js')
         script.
             function initPage() {
-                document.getElementById('purchaseText').addEventListener('click', redirectToPurchasePage);
+                document.getElementById('purchase').addEventListener('click', redirectToPurchasePage);
 
                 appendDevices();
             }
@@ -88,6 +88,8 @@ html
         h2(id='userID') #{user}
         h2(id='deviceTitle') Devices
         div(class='devices', id='devices')
+        .datahubImg
+            img(id='mainImg', src='../public/images/DataHub4U-1.png')
         h2(id='optionTitle') Expansion Options
         .expansionOptoins(id='options')
             .registerNewSensor(id='newDevice')

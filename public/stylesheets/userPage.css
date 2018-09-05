@@ -29,6 +29,12 @@ h2 #userID {
     margin-bottom: 5vmin;
 }
 
+#mainImg {
+    padding: 5vh 20vw;
+    width: 50vw;
+    height: 50vw;
+}
+
 h2 #deviceTitle {
     margin-top: 5vmin;
 }

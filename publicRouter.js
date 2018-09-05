@@ -21,6 +21,11 @@ router.get('/images/home.svg', (req, res) => {
     res.sendFile(__dirname + '/public/images/home.svg');
 });
 
+/* GET DataHubU-1 image */
+router.get('/images/DataHub4U-1.png', (req, res) => {
+    res.sendFile(__dirname + '/public/images/DataHub4U-1.png');
+});
+
 /* GET stylesheet for the user page */
 router.get('/stylesheets/userPage.css', (req, res) => {
     res.sendFile(__dirname + '/public/stylesheets/userPage.css');
@@ -29,6 +34,11 @@ router.get('/stylesheets/userPage.css', (req, res) => {
 /* GET stylesheet for the data page */
 router.get('/stylesheets/dataPage.css', (req, res) => {
     res.sendFile(__dirname + '/public/stylesheets/dataPage.css');
+});
+
+/* GET stylesheet for the purchase page */
+router.get('/stylesheets/purchasePage.css', (req, res) => {
+    res.sendFile(__dirname + '/public/stylesheets/purchasePage.css');
 });
 
 /* GET javascript file "jquery.min.js" */

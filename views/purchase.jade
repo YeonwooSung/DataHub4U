@@ -1,0 +1,18 @@
+doctype html
+
+html
+    head
+        title DataHub4U :: purchase
+        link(rel='stylesheet', href='../public/stylesheets/purchasePage.css')
+    body
+        header(id='navigate_bar', class='navigate_bar')
+            .navbarContainer
+                nav(class='navbar navbar-light')
+                    .navbar-collapse(id='header_navigator')
+                        ul(class='navbar-nav')
+                            li(class='nav-item')
+                                button(class='goBackButton', id='goBackButton', title='go back to the previous page', onclick='window.history.back()')
+                                    img(src='../public/images/goBack.svg', id='goBack_image')
+                            li(class='nav-item')
+                                a(class='nav-link', href='/', title='go to homepage', id='homeButton')
+                                    img(src='../public/images/home.svg', id='home_link_image')
