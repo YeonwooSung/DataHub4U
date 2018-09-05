@@ -34,7 +34,7 @@ let pool = mysql.createPool({
 exports.insertCollectedData = function (deviceNum, temperature, latitude, longitude, timestamp, humidity) {
     console.log('connections: ', pool._allConnections.length);
 
-    let queryString = `INSERT INTO ${deviceNum} VALUE (${temperature}, "${latitude}", "${longitude}", "${timestamp}", ${humidity})`;
+    let queryString = `INSERT INTO Data VALUE ("${deviceNum}", ${temperature}, ${humidity}, "${latitude}", "${longitude}", "${timestamp}")`;
 
     pool.getConnection(function (err, conn) {
         if (err) {
@@ -211,7 +211,7 @@ exports.doTheLogInProcess = function (id, pw, res) {
                 } else {
                     if (result[0]) {
                         if (result[0].password.toString() === pw.toString()) {
-                            res.render('index', { title: 'Data Thing' });
+                            res.render('index', { title: 'DataHub4U' });
                         } else {
                             console.log('wrong password!');
                             let val = { message: 'wrong password!' };
@@ -269,7 +269,7 @@ exports.getDeviceNumbers = function (id, res) {
  * @param res the instance that sends the response to the client.
  */
 exports.getData = function (user, deviceNum, res) {
-    let queryString = `SELECT temperature, humidity, timestamp FROM ${deviceNum} WHERE timestamp >= NOW() - INTERVAL 1 DAY`;
+    let queryString = `SELECT temperature, humidity, timestamp FROM Data WHERE deviceNum = "${deviceNum}" AND timestamp >= NOW() - INTERVAL 1 DAY`;
 
     pool.getConnection(function (err, conn) {
         if (err) {
@@ -299,7 +299,7 @@ exports.getData = function (user, deviceNum, res) {
  * @param res the response object to send the ajax response to the client
  */
 exports.getWeekData = (deviceNum, res) => {
-    let queryString = `SELECT temperature, humidity, timestamp FROM ${deviceNum} WHERE timestamp >= NOW() - INTERVAL 1 WEEK`;
+    let queryString = `SELECT temperature, humidity, timestamp FROM Data WHERE deviceNum = "${deviceNum}" AND timestamp >= NOW() - INTERVAL 1 WEEK`;
 
     pool.getConnection((err, conn) => {
         if (err) {
@@ -327,7 +327,7 @@ exports.getWeekData = (deviceNum, res) => {
  * @param res the response object to send the ajax response to the client
  */
 exports.getMonthData = (deviceNum, res) => {
-    let queryString = `SELECT temperature, humidity, timestamp FROM ${deviceNum} WHERE timestamp >= NOW() - INTERVAL 1 MONTH`;
+    let queryString = `SELECT temperature, humidity, timestamp FROM Data WHERE deviceNum = "${deviceNum}" AND timestamp >= NOW() - INTERVAL 1 MONTH`;
 
     pool.getConnection((err, conn) => {
         if (err) {
@@ -356,7 +356,7 @@ exports.getMonthData = (deviceNum, res) => {
  * @param res the response object
  */
 exports.getCustomRangeData = (start, end, deviceNum, res) => {
-    let queryString = `SELECT temperature, humidity, timestamp FROM ${deviceNum} WHERE timestamp >= "${start}" AND timestamp <= "${end}"`;
+    let queryString = `SELECT temperature, humidity, timestamp FROM Data WHERE deviceNum = "${deviceNum}" AND timestamp >= "${start}" AND timestamp <= "${end}"`;
 
     pool.getConnection((err, conn) => {
         if (err) {
