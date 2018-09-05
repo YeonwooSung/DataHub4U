@@ -31,8 +31,10 @@ html
                 makeDatePickerInvisible();
                 if (dataset.length > 60) {
                     prepareDrawing('5hours', dataset, 60);
-                } else {
+                } else if (dataset.length > 0) {
                     prepareDrawing('5hours', dataset, dataset.length);
+                } else {
+                    alert('No collected data!');
                 }
             }
 
@@ -40,14 +42,21 @@ html
                 makeDatePickerInvisible();
                 if (dataset.length > 144) {
                     prepareDrawing('12hours', dataset, 144);
-                } else {
+                } else if (dataset.length > 0) {
                     prepareDrawing('12hours', dataset, dataset.length);
+                } else {
+                    alert('No collected data!');
                 }
             }
 
             function draw_1dayData() {
                 makeDatePickerInvisible();
-                prepareDrawing('1day', dataset, dataset.length);
+
+                if (dataset.length > 0) {
+                    prepareDrawing('1day', dataset, dataset.length);
+                } else {
+                    alert('No collected data!');
+                }
             }
 
             function draw_1weekData() {
@@ -82,11 +91,15 @@ html
                         if (xhr.status === 200) {
                             let tempData = JSON.parse(xhr.response);
 
-                            if (id === '1week') {
-                                weeklyData = tempData;
-                            }
+                            if (tempData.length > 0) {
+                                if (id === '1week') {
+                                    weeklyData = tempData;
+                                }
 
-                            drawChart(tempData, tempData.length);
+                                drawChart(tempData, tempData.length);
+                            } else {
+                                alert(`No collected data: ${id}`);
+                            }
                         } else {
                             alert('Failed to get the data from the server!');
                         }
@@ -283,11 +296,18 @@ html
                         function getTheCustomDateData() {
                             let xhr = new XMLHttpRequest();
 
+                            let start;
+                            let end;
+
                             xhr.onreadystatechange = function () {
                                 if (xhr.readyState === xhr.DONE) {
                                     if (xhr.status === 200) {
                                         let tempData = JSON.parse(xhr.response);
-                                        drawChart(tempData, tempData.length);
+                                        if (tempData.length > 0) {
+                                            drawChart(tempData, tempData.length);
+                                        } else {
+                                            alert(`No collected data : ${start} ~ ${end}`);
+                                        }
                                     } else {
                                         alert('Failed to get the data from the server!');
                                     }
@@ -297,8 +317,8 @@ html
                             let dateRange = document.getElementById('datePicker').value;
                             let dateArray = dateRange.split(' - ');
                             let deviceNum = window.location.href.split('deviceNum=')[1].split('&')[0];
-                            let start = replaceDateFormat(dateArray[0], '/', '-');
-                            let end = replaceDateFormat(dateArray[1], '/', '-');
+                            start = replaceDateFormat(dateArray[0], '/', '-');
+                            end = replaceDateFormat(dateArray[1], '/', '-');
 
                             xhr.open('GET', `/data/custom?deviceNum=${deviceNum}&start=${start}&end=${end}`);
                             xhr.setRequestHeader('Content-Type', 'application/json');
