@@ -4,7 +4,14 @@ html
         title #{title}
         meta(name='user page', content='width=device-width; initial-scale=1.0; maximum-scale=2.0; minimum-scale=1.0; user-scalable=yes;')
         link(rel='stylesheet', href='../public/stylesheets/userPage.css')
+        script(type='text/javascript', src='../public/javascripts/userPage.js')
         script.
+            function initPage() {
+                document.getElementById('purchaseText').addEventListener('click', redirectToPurchasePage);
+
+                appendDevices();
+            }
+
             function appendDevices() {
                 let dataSet = !{JSON.stringify(data)}
                 let l = dataSet.length;
@@ -35,6 +42,7 @@ html
                     let deviceNameSpan = document.createElement('span');
                     deviceNameSpan.innerText = deviceName;
                     deviceNameSpan.id = deviceName;
+                    deviceNameSpan.class = 'deviceName';
 
                     temperSpan.innerText = temperature + ' ℃';
 
@@ -44,8 +52,10 @@ html
                     };
 
                     let button = document.createElement('button');
+
                     button.innerText = 'change device name';
                     button.type = 'button';
+
                     button.onclick = function() {
                         let newName = prompt('Please input the new device name', deviceName);
 
@@ -65,37 +75,7 @@ html
                 }
             }
 
-            function changeTheDeviceName(deviceNum, deviceName, currentName) {
-                let xhr = new XMLHttpRequest();
-
-                xhr.onreadystatechange = function () {
-                    if (xhr.readyState === xhr.DONE) {
-                        if (xhr.status === 200 || xhr.status === 201) {
-                            document.getElementById(currentName).innerText = deviceName;
-                        } else {
-                            alert('Failed to change the device name!');
-                        }
-                    }
-                }
-
-                let data = { deviceNum: deviceNum, deviceName: deviceName, currentName: currentName };
-
-                xhr.open('POST', window.location.href);
-                xhr.setRequestHeader('Content-Type', 'application/json');
-                xhr.send(JSON.stringify(data));
-            }
-
-            function redirectToDataPage(deviceNum) {
-                let currentURL = window.location.href;
-
-                currentURL = currentURL.split('/user')[0];
-
-                let url = `${currentURL}/data?deviceNum=${deviceNum}&user=` + document.getElementById('userID').innerText;
-
-                window.location.href = url;
-            }
-
-            window.onload = appendDevices; //call the appendDevices function when the page is on load.
+            window.onload = initPage; //call the initPage function when the page is on load.
     body
         header(id='navigate_bar', class='navigate_bar')
             .navbarContainer
@@ -105,5 +85,14 @@ html
                             li(class='nav-item')
                                 a(class='nav-link', href='/', title='go to homepage', id='homeButton')
                                     img(src='../public/images/home.svg', id='home_link_image')
-        h2(id='userID') User: #{user}
+        h2(id='userID') #{user}
+        h2(id='deviceTitle') Devices
         div(class='devices', id='devices')
+        h2(id='optionTitle') Expansion Options
+        .expansionOptoins(id='options')
+            .registerNewSensor(id='newDevice')
+                center
+                    span(id='registerText', class='optionText') Register New Device
+            .purchaseNewDevice(id='purchase')
+                center
+                    span(id='purchaseText', class='optionText') Purchase New Device

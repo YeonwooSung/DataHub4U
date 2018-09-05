@@ -14,8 +14,10 @@ let collectRouter = require('./routes/collect');
 let loginRouter = require('./routes/login');
 let registerRouter = require('./routes/register');
 let publicRouter = require('./publicRouter');
+let purchaseRouter = require('./routes/purchase');
 
 
+//the middleware object
 let app = express();
 
 
@@ -39,12 +41,14 @@ app.use('/collect', collectRouter);
 app.use('/login', loginRouter);
 app.use('/register', registerRouter);
 app.use('/public', publicRouter);
+app.use('/purchase', purchaseRouter);
 
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
 
 // error handler
 app.use(function(err, req, res) {

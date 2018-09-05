@@ -41,4 +41,9 @@ router.get('/javascripts/moment.min.js', (req, res) => {
     res.sendFile(__dirname + '/public/javascripts/moment.min.js');
 });
 
+/* GET javascript file "userPage.js" */
+router.get('/javascripts/userPage.js', (req, res) => {
+    res.sendFile(__dirname + '/public/javascripts/userPage.js');
+});
+
 module.exports = router;

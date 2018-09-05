@@ -1,5 +1,11 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
 header {
-  height: 5vmax;
+  height: 7vmax;
+  background-color: #455b7c;
 }
 
 img {

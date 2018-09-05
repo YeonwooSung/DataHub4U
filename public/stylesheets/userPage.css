@@ -1,8 +1,15 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
 header {
-    height: 5vmax;
+    height: 7vmax;
+    background-color: #455b7c;
 }
 
 img {
+    padding-top: 1vmax;
     height: 5vmax;
 }
 
@@ -13,22 +20,27 @@ ul {
     overflow: hidden;
 }
 
-li {
-    margin-right: 3vmin;
-    float: left;
-}
-
 h2 {
     color: #000000;
     font-size: 6vmin;
-    margin-bottom: 15vmin;
+}
+
+h2 #userID {
+    margin-bottom: 5vmin;
+}
+
+h2 #deviceTitle {
+    margin-top: 5vmin;
+}
+
+h2 #optionTitle {
+    margin-top: 10vmin;
 }
 
 #temperature {
     border-style: groove;
     border-color: #808080;
-    margin-top: 3vmin;
-    margin-bottom: 3vmin;
+    margin: 5vmin 1vmin 3vmin 1vmin;
     height: 10vmin;
 }
 
@@ -45,4 +57,16 @@ span {
 #temperatureImg {
     height: 7vmin;
     margin-left: 30vw;
+}
+
+div .registerNewSensor {
+    border-style: groove;
+    border-color: #808080;
+    margin: 5vmin 1vmin 5vmin 1vmin;
+}
+
+div .purchaseNewDevice {
+    border-style: groove;
+    border-color: #808080;
+    margin: 5vmin 1vmin 5vmin 1vmin;
 }
