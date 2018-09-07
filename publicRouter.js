@@ -26,6 +26,21 @@ router.get('/images/DataHub4U-1.png', (req, res) => {
     res.sendFile(__dirname + '/public/images/DataHub4U-1.png');
 });
 
+/* GET curly_logo.png image */
+router.get('/images/curly_logo.png', (req, res) => {
+    res.sendFile(__dirname + '/public/images/curly_logo.png');
+});
+
+/* GET main_logo.png */
+router.get('/images/main_logo.png', (req, res) => {
+    res.sendFile(__dirname + '/public/images/main_logo.png');
+});
+
+/* GET sub_logo.png */
+router.get('/images/sub_logo.png', (req, res) => {
+    res.sendFile(__dirname + '/public/images/sub_logo.png');
+});
+
 /* GET stylesheet for the user page */
 router.get('/stylesheets/userPage.css', (req, res) => {
     res.sendFile(__dirname + '/public/stylesheets/userPage.css');
