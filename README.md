@@ -1,6 +1,9 @@
 # DataHub4U
 
 
+<img width="217" alt="main_logo" src="https://user-images.githubusercontent.com/30489717/45232236-af2f7280-b309-11e8-866a-e95c322eb398.png">
+
+
 ## Overview
 
 The DataHub4U helps you to collect data and analyse the collected data.
