@@ -2,6 +2,7 @@ doctype html
 html
     head
         title DataHub4U :: Register
+        script(type='text/javascript', src='../public/javascripts/registerPage.js')
         link(rel='stylesheet', href='//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css')
         link(rel='stylesheet', href='stylesheets/registerStyle.css')
     body
@@ -9,14 +10,13 @@ html
             .navbarContainer
                 nav(class='navbar navbar-light')
                     .navbar-collapse(id='header_navigator')
-                        ul(class='navbar-nav')
-                            li(class='nav-item')
-                                a(class='nav-link', href='/', title='go to homepage', id='homeButton')
-                                    img(src='../public/images/main_logo.png', id='home_link_image')
+                        center
+                            a(class='nav-link', href='/', title='go to homepage', id='homeButton')
+                                img(src='../public/images/main_logo.png', id='home_link_image')
         .login.well
             h1  Welcome
             hr
-            form(id='register-form', onsubmit='return confirmUserInfo()', method='POST', action='/register')
+            form(id='register-form', onsubmit='return confirmUserInfo();', method='POST', action='/register')
                 .form-group
                     label(for='userName') Name
                     input(type='text', name='userName', class='form-control form-control-lg',
@@ -52,44 +52,6 @@ html
                     a(href="login", style='margin-left: 10px') Or Login
                 .hiddenDiv(id='hidden_div')
         script.
-            function confirmUserInfo() {
-                let element = document.getElementById('hidden_div').childNodes[0];
-
-                if (element) {
-                    document.getElementById('hidden_div').removeChild(element);
-                }
-
-                let password = document.getElementById('password').value;
-                let confirmedPassword = document.getElementById('confirm-password').value;
-
-                if (password !== confirmedPassword) {
-                    makeNewElement('Please recheck the password and confirm-password.', 'passwordDiv');
-                    return false;
-                }
-
-                let email = document.getElementById('email').value;
-                let confirmedEmail = document.getElementById('confirm-email').value;
-
-                if (email !== confirmedEmail) {
-                    makeNewElement('Please recheck the email and confirm-email sections.', 'emailDiv');
-                    return false;
-                }
-
-                return true;
-            }
-
-            function makeNewElement(text) {
-                if (document.getElementById(id)) {
-                    return;
-                }
-                let newDiv = document.createElement('div');
-                newDiv.innerText = text;
-                newDiv.style.color = 'red';
-                newDiv.style.fontSize = '3vmin';
-
-                document.getElementById('hidden_div').appendChild(newDiv);
-            }
-
             function alertDuplicatedID() {
                 const alerted = !{JSON.stringify(alert)};
 
