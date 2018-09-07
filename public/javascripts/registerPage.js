@@ -1,7 +1,7 @@
 /**
  * This function checks if the values of the attributes and confirm-attributes are same.
  *
- * @return {boolean}
+ * @return {boolean} Returns true if everything is ok. Otherwise, returns false.
  */
 function confirmUserInfo() {
     let element = document.getElementById('hidden_div').childNodes[0];
@@ -34,7 +34,7 @@ function confirmUserInfo() {
 /**
  * This function makes the new div tag to display the warning message, and appends it to the register page.
  *
- * @param text
+ * @param text The warning message to display on the web page
  */
 function makeNewElement(text) {
     if (document.getElementById(id)) {

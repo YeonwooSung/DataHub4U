@@ -71,4 +71,9 @@ router.get('/javascripts/userPage.js', (req, res) => {
     res.sendFile(__dirname + '/public/javascripts/userPage.js');
 });
 
+/* GET javascript file "registerPage.js" */
+router.get('/javascripts/registerPage.js', (req, res) => {
+    res.sendFile(__dirname + '/public/javascripts/registerPage.js');
+});
+
 module.exports = router;
