@@ -4,17 +4,17 @@ body {
 }
 
 header {
-    height: 7vmax;
+    height: 8vmax;
 }
 
 img {
-    height: 7vmax;
+    height: 8vmax;
 }
 
 body {
     padding-top: 10px;
-    padding-right: 25vw;
-    padding-left: 25vw;
+    padding-right: 20vw;
+    padding-left: 20vw;
 }
 
 hr {
