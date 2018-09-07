@@ -147,7 +147,7 @@ function registerNewUser(userName, id, password, res) {
  * @param res the response object that sends the response to the client
  */
 exports.checkIfRegisteredAlready = (userName, id, password, res) => {
-    let queryString = `SELECT * from User where id="${id}"`;
+    let queryString = `SELECT userName from User where id="${id}"`;
 
     pool.getConnection(function (err, conn) {
         if (err) {
