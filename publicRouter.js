@@ -56,6 +56,11 @@ router.get('/stylesheets/purchasePage.css', (req, res) => {
     res.sendFile(__dirname + '/public/stylesheets/purchasePage.css');
 });
 
+/* GET stylesheet for the index page */
+router.get('/stylesheets/indexPage.css', (req, res) => {
+    res.sendFile(__dirname + '/public/stylesheets/indexPage.css');
+});
+
 /* GET javascript file "jquery.min.js" */
 router.get('/javascripts/jquery.min.js', (req, res) => {
     res.sendFile(__dirname + '/public/javascripts/jquery.min.js');
