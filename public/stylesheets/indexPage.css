@@ -10,3 +10,9 @@ header {
 img {
     height: 7vmax;
 }
+
+#home_link_image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
