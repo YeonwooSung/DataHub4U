@@ -4,13 +4,17 @@ body {
 }
 
 header {
-    height: 7vmax;
-    background-color: #455b7c;
+    height: 8vmax;
 }
 
 img {
     padding-top: 1vmax;
-    height: 5vmax;
+    height: 7vmax;
+}
+
+button {
+    width: 9vmax;
+    margin-right: 20vw;
 }
 
 ul {
@@ -22,5 +26,5 @@ ul {
 
 li {
     margin-right: 3vmin;
-    float: left;
+    display: inline-block;
 }
