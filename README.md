@@ -4,7 +4,7 @@
 ## Overview
 
 The DataHub4U helps you to collect data and analyse the collected data.
-It detects the temperature and the humidity of the place where device the device is.
+It detects the temperature and the humidity of the place where the device is.
 Then, it sends the collected temperature and humidity to the server via network.
 
 
